@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "416250793403",
+    "project_id": "pi3-es-2024-t10",
+    "storage_bucket": "pi3-es-2024-t10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416250793403:android:d1b8eabf323d523dc6c89e",
+        "android_client_info": {
+          "package_name": "br.edu.puccampinas.safepack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqgSI036a-Wx6Z8IXXVQiqmeryBN62x4w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
