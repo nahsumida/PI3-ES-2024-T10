@@ -8,7 +8,7 @@
     android:background="@drawable/background_with_small_gradient"
     tools:context=".CadastroActivity"
     android:layout_gravity="center_horizontal"
-    android:padding="25dp">
+    android:padding="25dp" >
 
     <ImageView
         android:layout_width="wrap_content"
