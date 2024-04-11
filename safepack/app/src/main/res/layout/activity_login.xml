@@ -7,88 +7,81 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@drawable/background_login"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:layout_gravity="center_horizontal"
+    android:padding="25dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center_horizontal"
-            android:padding="20dp">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:src="@drawable/outline_person_24" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:src="@drawable/outline_person_24" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:id="@+id/loginText"
+        android:textSize="36dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginTop="45dp"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Login"
-                android:id="@+id/loginText"
-                android:textSize="36dp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_marginTop="45dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/email"
+        android:layout_marginTop="45dp"
+        android:padding="8dp"
+        android:hint="Digite seu email"
+        android:drawableLeft="@drawable/baseline_alternate_email_24"
+        android:textColor="@color/black"
+        android:drawablePadding="8dp"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/email"
-                android:layout_marginTop="45dp"
-                android:padding="8dp"
-                android:hint="Digite seu email"
-                android:drawableLeft="@drawable/baseline_alternate_email_24"
-                android:textColor="@color/black"
-                android:drawablePadding="8dp"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/password"
-                android:layout_marginTop="15dp"
-                android:inputType="textPassword"
-                android:padding="8dp"
-                android:hint="Digite sua senha"
-                android:drawableLeft="@drawable/baseline_lock_outline_24"
-                android:textColor="@color/black"
-                android:drawablePadding="8dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Esqueceu a senha"
-                android:id="@+id/esqueceuSenhaText"
-                android:textSize="10dp"
-                android:textColor="@color/black"
-                android:layout_marginTop="5dp"
-                />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="Login"
-                android:id="@+id/loginButton"
-                android:textSize="18dp"
-                android:layout_marginTop="45dp"
-                android:backgroundTint="@color/lavander"
-                app:cornerRadius = "8dp" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="blablabla de cadastro aqui"
-                android:id="@+id/fazerCadastroText"
-                android:textSize="10dp"
-                android:textColor="@color/black"
-                android:layout_marginTop="5dp"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="Ver mapa sem login"
-                android:id="@+id/verMapaButton"
-                android:textSize="15dp"
-                android:layout_marginTop="45dp"
-                android:backgroundTint="@color/lavander"
-                app:cornerRadius = "8dp"/>
-
-        </LinearLayout>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/password"
+        android:layout_marginTop="15dp"
+        android:inputType="textPassword"
+        android:padding="8dp"
+        android:hint="Digite sua senha"
+        android:drawableLeft="@drawable/baseline_lock_outline_24"
+        android:textColor="@color/black"
+        android:drawablePadding="8dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Esqueceu a senha"
+        android:id="@+id/esqueceuSenhaText"
+        android:textSize="10dp"
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Login"
+        android:id="@+id/loginButton"
+        android:textSize="18dp"
+        android:layout_marginTop="45dp"
+        android:backgroundTint="@color/lavander"
+        app:cornerRadius = "8dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="blablabla de cadastro aqui"
+        android:id="@+id/fazerCadastroText"
+        android:textSize="10dp"
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Ver mapa sem login"
+        android:id="@+id/verMapaButton"
+        android:textSize="15dp"
+        android:layout_marginTop="45dp"
+        android:backgroundTint="@color/lavander"
+        app:cornerRadius = "8dp"/>
 
 </LinearLayout>
