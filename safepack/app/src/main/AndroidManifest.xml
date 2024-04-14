@@ -30,8 +30,13 @@
 
         <activity
             android:name=".MapsActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_maps" />
+
+        <activity
+        android:name=".CadastroActivity"
+        android:exported="true"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
