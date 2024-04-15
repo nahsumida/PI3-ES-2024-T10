@@ -116,6 +116,16 @@
             android:layout_marginTop="25dp"
             android:backgroundTint="@color/lavander"
             app:cornerRadius = "15dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="criar conta"
+            android:id="@+id/testeButton"
+            android:textSize="18dp"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="@color/lavander"
+            app:cornerRadius = "15dp"/>
         </LinearLayout>
 
 </LinearLayout>

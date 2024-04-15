@@ -37,8 +37,8 @@ class MainActivity : AppCompatActivity() {
             if (email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                 if (senha.isNotEmpty()){
                     auth.signInWithEmailAndPassword(email, senha)
-                        .addOnCompleteListener{
-                            if (it.isSuccessful){
+                        .addOnCompleteListener{task ->
+                            if (task.isSuccessful){
                                 // uid do usuario logado = it.result.user?.uid.toString()
                                 val iMaps = Intent(this, MapsActivity::class.java)
                                 startActivity(iMaps)
