@@ -1,7 +1,9 @@
 package br.edu.puccampinas.safepack
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -21,12 +23,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         Place("Oxxo PUCC", LatLng(-22.8363415,-47.0531125),
             "Av. Profa. Ana Maria Silvestre Adade, 607 - Parque das Universidades, Campinas - SP, 13086-130")
     )
+    private lateinit var mapsButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
+        mapsButton = findViewById(R.id.mapsButton)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -35,6 +40,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync { googleMap ->
             addMarkers(googleMap)
         }
+
+        mapsButton.setOnClickListener {
+            val iCreditCard = Intent(this, CadastroCartaoActivity::class.java)
+            startActivity(iCreditCard)
+        }
+
     }
 
     private fun addMarkers(googleMap: GoogleMap) {
