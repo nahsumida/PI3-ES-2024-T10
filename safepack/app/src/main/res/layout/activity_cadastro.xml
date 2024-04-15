@@ -13,11 +13,13 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:src="@drawable/baseline_keyboard_backspace_24" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
         android:gravity="center"
         android:id="@+id/voltar"
         android:orientation="vertical">
@@ -36,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:id="@+id/nome"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:padding="8dp"
             android:hint="Nome"
             android:drawableLeft="@drawable/outline_person_24"
@@ -100,6 +102,7 @@
             android:layout_height="50dp"
             android:id="@+id/senhaConfirmacao"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
             android:padding="8dp"
             android:hint="Confirmar senha"
             android:drawableLeft="@drawable/baseline_lock_outline_24"

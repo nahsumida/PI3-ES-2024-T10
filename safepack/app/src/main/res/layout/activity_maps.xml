@@ -22,7 +22,8 @@
         android:text="Cadastrar Cartão"
         android:layout_alignParentBottom="true"
         android:padding="50px"
-        android:backgroundTint="@color/lavander"/>
+        android:backgroundTint="@color/lavander"
+        android:textSize="16dp"/>
 </RelativeLayout>
 
 
