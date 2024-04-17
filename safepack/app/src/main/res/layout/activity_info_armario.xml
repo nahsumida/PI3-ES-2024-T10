@@ -13,6 +13,7 @@
     tools:context=".InfoArmarioActivity">
 
     <ImageView
+        android:id="@+id/arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -37,15 +38,15 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:src="@drawable/outline_person_24"
-            android:layout_marginTop="60dp"/>
+            android:layout_height="180dp"
+            android:src="@drawable/armario_grande"
+            android:layout_marginTop="30dp"/>
         
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp">
 
             <TextView
                 android:layout_width="wrap_content"

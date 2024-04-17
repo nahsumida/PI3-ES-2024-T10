@@ -13,8 +13,8 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:src="@drawable/outline_person_24" />
+        android:layout_height="258dp"
+        android:src="@drawable/logo_name_white_big" />
 
     <TextView
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
         android:textSize="36dp"
         android:textStyle="bold"
         android:textColor="@color/black"
-        android:layout_marginTop="60dp"/>
+        android:layout_marginTop="0dp"/>
 
     <EditText
         android:layout_width="match_parent"

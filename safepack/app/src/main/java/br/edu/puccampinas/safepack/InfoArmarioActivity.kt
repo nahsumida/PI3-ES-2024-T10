@@ -1,5 +1,6 @@
 package br.edu.puccampinas.safepack
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -15,5 +16,15 @@ class InfoArmarioActivity : AppCompatActivity()  {
 
         binding = ActivityInfoArmarioBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.alugarArmarioButton.setOnClickListener {
+            val iAlugarArmario = Intent(this, AlugarArmarioActivity::class.java)
+            startActivity(iAlugarArmario)
+        }
+
+        binding.arrow.setOnClickListener {
+            val iMaps = Intent(this, MapsActivity::class.java)
+            startActivity(iMaps)
+        }
     }
 }

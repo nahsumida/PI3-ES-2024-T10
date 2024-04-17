@@ -23,5 +23,10 @@ class CadastroCartaoActivity : AppCompatActivity() {
             val iMaps = Intent(this, MapsActivity::class.java)
             startActivity(iMaps)
         })
+
+        binding.arrow.setOnClickListener {
+            val iMaps = Intent(this, MapsActivity::class.java)
+            startActivity(iMaps)
+        }
     }
 }

@@ -20,7 +20,7 @@ import com.google.android.gms.maps.model.Marker
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickListener {
 
     private lateinit var mMap: GoogleMap
-    private var binding: ActivityMapsBinding? = null
+    private lateinit var binding: ActivityMapsBinding
     private val places = arrayListOf(
         Place("PUCC Campus 1", LatLng(-22.8360456,-47.0564085),
             "Av. Reitor Benedito José Barreto Fonseca, H15 - Parque dos Jacarandás, Campinas - SP"),
@@ -34,7 +34,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
         super.onCreate(savedInstanceState)
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
-        setContentView(binding?.root)
+        setContentView(binding.root)
 
         mapsButton = findViewById(R.id.mapsButton)
 
@@ -66,7 +66,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
                     .position(place.latLng)
             )
         }
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(places[0].latLng, 100F))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(places[0].latLng, 15F))
     }
 
     override fun onInfoWindowClick(marker: Marker) {
