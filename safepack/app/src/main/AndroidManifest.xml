@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Safepack"
         tools:targetApi="31">
+
         <activity
             android:name=".AlugarArmarioActivity"
             android:exported="false" />
@@ -28,7 +29,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}" />
+            android:value="AIzaSyCUD1_AHyi6yfWganA4O6J1xMqpSf-jJXo" />
 
         <activity
             android:name=".InfoArmarioActivity"
