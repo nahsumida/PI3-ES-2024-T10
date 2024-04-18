@@ -30,7 +30,8 @@
             android:textSize="36dp"
             android:textAlignment="center"
             android:textStyle="bold"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:fontFamily="@font/montserratbold"/>
 
 
 
@@ -38,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:id="@+id/senha"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="80dp"
             android:padding="8dp"
             android:hint="Nova Senha"
             android:drawableLeft="@drawable/baseline_lock_outline_24"
@@ -49,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:id="@+id/senhaConfirmacao"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="50dp"
             android:padding="8dp"
             android:hint="Confirmar senha"
             android:drawableLeft="@drawable/baseline_lock_outline_24"
@@ -59,12 +60,14 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="alterar senha"
+            android:text="Alterar senha"
             android:id="@+id/alterarSenhaButton"
             android:textSize="18dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="80dp"
             android:backgroundTint="@color/lavander"
-            app:cornerRadius = "15dp"/>
+            app:cornerRadius = "15dp"
+            android:fontFamily="@font/montserratsemibold"
+            android:textAllCaps="false"/>
         </LinearLayout>
 
 </LinearLayout>

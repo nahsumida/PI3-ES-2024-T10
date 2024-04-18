@@ -48,6 +48,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
             startActivity(iCreditCard)
         }
 
+        binding.sairButton.setOnClickListener {
+            val iLogin = Intent(this, MainActivity::class.java)
+            startActivity(iLogin)
+        }
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

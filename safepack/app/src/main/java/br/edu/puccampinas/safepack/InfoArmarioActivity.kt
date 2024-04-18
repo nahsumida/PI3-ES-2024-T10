@@ -1,7 +1,9 @@
 package br.edu.puccampinas.safepack
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -25,6 +27,23 @@ class InfoArmarioActivity : AppCompatActivity()  {
         binding.arrow.setOnClickListener {
             val iMaps = Intent(this, MapsActivity::class.java)
             startActivity(iMaps)
+        }
+
+        binding.irAoLocalButton.setOnClickListener {
+            val latitude = -22.8360456
+            val longitude = -47.0564085
+            val uri = "geo:$latitude,$longitude"
+
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+
+            intent.`package` = "com.google.android.apps.maps"
+
+            if (intent.resolveActivity(packageManager) != null) {
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Google maps não está instalado",
+                    Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
