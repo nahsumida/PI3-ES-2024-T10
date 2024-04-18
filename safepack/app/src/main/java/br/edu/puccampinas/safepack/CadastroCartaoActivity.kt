@@ -7,20 +7,26 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import br.edu.puccampinas.safepack.databinding.ActivityCadastroCartaoBinding
 import br.edu.puccampinas.safepack.databinding.ActivityLoginBinding
 
 class CadastroCartaoActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLoginBinding
+    private lateinit var binding: ActivityCadastroCartaoBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityLoginBinding.inflate(layoutInflater)
+        binding = ActivityCadastroCartaoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.loginButton.setOnClickListener(View.OnClickListener {
-            val iCreateAccount = Intent(this, CadastroActivity::class.java)
-            startActivity(iCreateAccount)
+        binding.habilitarCartaoButton.setOnClickListener(View.OnClickListener {
+            val iMaps = Intent(this, MapsActivity::class.java)
+            startActivity(iMaps)
         })
+
+        binding.arrow.setOnClickListener {
+            val iMaps = Intent(this, MapsActivity::class.java)
+            startActivity(iMaps)
+        }
     }
 }
