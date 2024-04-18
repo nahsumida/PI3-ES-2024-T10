@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.safepack.databinding.ActivityCadastroBinding
 import br.edu.puccampinas.safepack.databinding.ActivityLoginBinding
@@ -62,6 +63,11 @@ class CadastroActivity : AppCompatActivity() {
                         }
                     }
             }
+        })
+
+        binding.arrow.setOnClickListener(View.OnClickListener {
+            val iLogin = Intent(this, MainActivity::class.java)
+            startActivity(iLogin)
         })
 
         binding.testeButton.setOnClickListener(View.OnClickListener {

@@ -65,5 +65,10 @@ class MainActivity : AppCompatActivity() {
             val iMaps = Intent(this, MapsActivity::class.java)
             startActivity(iMaps)
         })
+
+        binding.esqueceuSenhaText.setOnClickListener {
+            val iAlterarSenha = Intent(this, AlterarSenhaActivity::class.java)
+            startActivity(iAlterarSenha)
+        }
     }
 }

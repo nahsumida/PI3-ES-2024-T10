@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Safepack"
         tools:targetApi="31">
-
+        <activity
+            android:name=".AlugarArmarioActivity"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -26,17 +28,24 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY" />
+            android:value="${MAPS_API_KEY}" />
 
+        <activity
+            android:name=".InfoArmarioActivity"
+            android:exported="true" />
         <activity
             android:name=".MapsActivity"
             android:exported="true"
             android:label="@string/title_activity_maps" />
-
         <activity
-        android:name=".CadastroActivity"
-        android:exported="true"/>
-
+            android:name=".CadastroActivity"
+            android:exported="true" />
+        <activity
+            android:name=".CadastroCartaoActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AlterarSenhaActivity"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
