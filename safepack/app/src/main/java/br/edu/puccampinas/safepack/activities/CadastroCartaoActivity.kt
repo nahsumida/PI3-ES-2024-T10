@@ -1,14 +1,10 @@
-package br.edu.puccampinas.safepack
+package br.edu.puccampinas.safepack.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Email
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.safepack.databinding.ActivityCadastroCartaoBinding
-import br.edu.puccampinas.safepack.databinding.ActivityLoginBinding
 
 class CadastroCartaoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCadastroCartaoBinding

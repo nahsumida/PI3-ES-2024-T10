@@ -1,18 +1,12 @@
-package br.edu.puccampinas.safepack
+package br.edu.puccampinas.safepack.activities
 
-import android.content.ContentValues
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Email
-import android.util.Log
 import android.util.Patterns
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.safepack.databinding.ActivityLoginBinding
+import br.edu.puccampinas.safepack.databinding.ActivityMapsBinding
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
@@ -62,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         binding.verMapaButton.setOnClickListener(View.OnClickListener {
-            val iMaps = Intent(this, MapsActivity::class.java)
+            val iMaps = Intent(this, MapsNoLoginActivity::class.java)
             startActivity(iMaps)
         })
 

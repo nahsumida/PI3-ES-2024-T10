@@ -1,4 +1,4 @@
-package br.edu.puccampinas.safepack
+package br.edu.puccampinas.safepack.models
 
 class Cadastro (var nomeCompleto: String,
                 var cpf: String,

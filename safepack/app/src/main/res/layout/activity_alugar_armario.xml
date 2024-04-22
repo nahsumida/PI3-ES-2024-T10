@@ -8,7 +8,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_gravity="center_horizontal"
-    android:padding="25dp">
+    android:padding="25dp"
+    tools:context=".activities.AlugarArmarioActivity">
 
     <ImageView
         android:id="@+id/arrow"
