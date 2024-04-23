@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@drawable/background_with_small_gradient"
-    tools:context=".CadastroActivity"
+    tools:context=".activity.CadastroActivity"
     android:layout_gravity="center_horizontal"
     android:padding="25dp" >
 

@@ -1,11 +1,10 @@
-package br.edu.puccampinas.safepack
+package br.edu.puccampinas.safepack.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.Toast
+import br.edu.puccampinas.safepack.R
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap

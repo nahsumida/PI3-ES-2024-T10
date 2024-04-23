@@ -1,4 +1,4 @@
-package br.edu.puccampinas.safepack
+package br.edu.puccampinas.safepack.activity
 
 import android.content.Intent
 import android.net.Uri

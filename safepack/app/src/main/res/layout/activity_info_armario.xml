@@ -10,7 +10,7 @@
     android:background="@drawable/background_with_small_gradient"
     android:layout_gravity="center_horizontal"
     android:padding="25dp"
-    tools:context=".InfoArmarioActivity">
+    tools:context=".activity.InfoArmarioActivity">
 
     <ImageView
         android:id="@+id/arrow"

@@ -1,25 +1,15 @@
-package br.edu.puccampinas.safepack
+package br.edu.puccampinas.safepack.activity
 
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Email
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.safepack.databinding.ActivityCadastroBinding
-import br.edu.puccampinas.safepack.databinding.ActivityLoginBinding
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.functions.FirebaseFunctions
-import com.google.firebase.functions.FirebaseFunctionsException
-import com.google.firebase.functions.getHttpsCallableFromUrl
 import java.net.URL
-
 
 class CadastroActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCadastroBinding
@@ -33,7 +23,6 @@ class CadastroActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_cadastro);
 
         binding = ActivityCadastroBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -55,11 +44,11 @@ class CadastroActivity : AppCompatActivity() {
                         if (task.isSuccessful) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(ContentValues.TAG, "signInWithCustomToken:success")
-                            addSamplePerson()
-
                             //var uidAuth =  task.result.user?.uid.toString()
                             val iLogin = Intent(this, MainActivity::class.java)
                             startActivity(iLogin)
+                        } else {
+                            binding.cadastroButton.setText("deu ruim")
                         }
                     }
             }
@@ -68,10 +57,6 @@ class CadastroActivity : AppCompatActivity() {
         binding.arrow.setOnClickListener(View.OnClickListener {
             val iLogin = Intent(this, MainActivity::class.java)
             startActivity(iLogin)
-        })
-
-        binding.testeButton.setOnClickListener(View.OnClickListener {
-            addSamplePerson()
         })
 
         binding.voltar.setOnClickListener(View.OnClickListener {

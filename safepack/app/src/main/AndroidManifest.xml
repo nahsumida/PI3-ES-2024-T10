@@ -14,7 +14,7 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".AlugarArmarioActivity"
+            android:name=".activity.AlugarArmarioActivity"
             android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
@@ -32,23 +32,23 @@
             android:value="${MAPS_API_KEY}" />
 
         <activity
-            android:name=".InfoArmarioActivity"
+            android:name=".activity.InfoArmarioActivity"
             android:exported="true" />
         <activity
-            android:name=".MapsActivity"
+            android:name=".activity.MapsActivity"
             android:exported="true"
             android:label="@string/title_activity_maps" />
         <activity
-            android:name=".CadastroActivity"
+            android:name=".activity.CadastroActivity"
             android:exported="true" />
         <activity
-            android:name=".CadastroCartaoActivity"
+            android:name=".activity.CadastroCartaoActivity"
             android:exported="true" />
         <activity
-            android:name=".AlterarSenhaActivity"
+            android:name=".activity.AlterarSenhaActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
