@@ -1,6 +1,11 @@
-package br.edu.puccampinas.safepack.model
+package br.edu.puccampinas.safepack.models
 
-class UnidadeLocacao (var nomeTitular: String,
-                      var dataValidae: String,
-                      var CVV: String,
-                      var numCartao:String)
+import com.google.firebase.firestore.GeoPoint
+
+class UnidadeLocacao (id: String,
+                      endereco: String,
+                      geoLocalizacao: GeoPoint,
+                      nome: String,
+                      referencia: String){
+
+}
