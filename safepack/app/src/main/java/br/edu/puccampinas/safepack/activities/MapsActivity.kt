@@ -14,26 +14,18 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import br.edu.puccampinas.safepack.databinding.ActivityMapsBinding
+import br.edu.puccampinas.safepack.repositories.UnidadeLocacaoRepository
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
 import com.google.android.gms.maps.model.Marker
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickListener {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
-    private val places = arrayListOf(
-        Place("PUCC Campus 1", LatLng(-22.8360456,-47.0564085),
-            "Av. Reitor Benedito José Barreto Fonseca, H15 - Parque dos Jacarandás, Campinas - SP"),
-        Place("Oxxo PUCC", LatLng(-22.8363415,-47.0531125),
-            "Av. Profa. Ana Maria Silvestre Adade, 607 - Parque das Universidades, Campinas - SP, 13086-130")
-    )
     private lateinit var mapsButton: Button
     private lateinit var auth: FirebaseAuth
-    private lateinit var firestore: FirebaseFirestore
+    private lateinit var unidadeLocacaoRepository: UnidadeLocacaoRepository
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +41,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        firestore = Firebase.firestore
+        unidadeLocacaoRepository = UnidadeLocacaoRepository()
 
         mapsButton.setOnClickListener {
             val iCreditCard = Intent(this, CadastroCartaoActivity::class.java)
@@ -62,7 +54,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
             val iLogin = Intent(this, MainActivity::class.java)
             startActivity(iLogin)
         }
-
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -74,31 +65,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
     }
 
     private fun addMarkers(googleMap: GoogleMap) {
-        /*
-        places.forEach { place ->
-            val marker = googleMap.addMarker(
-                MarkerOptions()
-                    .title("Informações do armário")
-                    .position(place.latLng)
-            )
-        }
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(places[0].latLng, 15F))
-        */
         mMap = googleMap
 
-        firestore.collection("unidadeLocacao")
-            .get()
+        unidadeLocacaoRepository.getAllUnidades()
             .addOnSuccessListener { unidades ->
                 for (unidade in unidades) {
                     val geoPoint = unidade.getGeoPoint("geoLocalizacao")
                     if(geoPoint != null) {
                         val latLng = LatLng(geoPoint.latitude, geoPoint.longitude)
-                        mMap.addMarker(
-                            MarkerOptions().position(latLng).title("Informações do armário")
+                        val marker = mMap.addMarker(
+                            MarkerOptions()
+                                .position(latLng)
+                                .title("Informações do armário")
                         )
+                        if (marker != null) {
+                            marker.tag = unidade.id
+                        }
                     }
                 }
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(places[0].latLng, 15F))
+                //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(places[0].latLng, 15F))
             }
             .addOnFailureListener { exception ->
                 Log.e("Firestore", "Erro ao recuperar dados: ${exception.message}")
@@ -106,14 +91,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
     }
 
     override fun onInfoWindowClick(marker: Marker) {
+        val idUnidade = marker.tag as? String
         val iInfoArmario = Intent(this, InfoArmarioActivity::class.java)
+        iInfoArmario.putExtra("idUnidade", idUnidade)
+        iInfoArmario.putExtra("activityAnterior", "Maps")
         startActivity(iInfoArmario)
     }
-
 }
-
-data class Place (
-    val name: String,
-    val latLng: LatLng,
-    val address: String,
-)
