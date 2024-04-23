@@ -1,10 +1,10 @@
-package br.edu.puccampinas.safepack
+package br.edu.puccampinas.safepack.model
 
-class Cadastro (var nomeCompleto: String,
-                var cpf: String,
-                var dataNascimento: String,
-                var telefone:String,
-                var senha: String) {
+class Pessoa (var nomeCompleto: String,
+              var cpf: String,
+              var dataNascimento: String,
+              var telefone:String,
+              var senha: String) {
 
     public fun isNomeValido(): Boolean {
         val regex = Regex("^[^0-9@#$%^&+=]*\$")
