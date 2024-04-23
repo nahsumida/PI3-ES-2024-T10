@@ -1,4 +1,4 @@
-package br.edu.puccampinas.safepack.activity
+package br.edu.puccampinas.safepack.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -13,28 +13,29 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import br.edu.puccampinas.safepack.databinding.ActivityMapsBinding
+import br.edu.puccampinas.safepack.databinding.ActivityMapsNoLoginBinding
 import br.edu.puccampinas.safepack.repositories.UnidadeLocacaoRepository
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
 import com.google.android.gms.maps.model.Marker
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickListener {
+class MapsNoLoginActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickListener {
 
     private lateinit var mMap: GoogleMap
-    private lateinit var binding: ActivityMapsBinding
-    private lateinit var mapsButton: Button
-    private lateinit var auth: FirebaseAuth
+    private lateinit var binding: ActivityMapsNoLoginBinding
+    private lateinit var mapsLoginButton: Button
     private lateinit var unidadeLocacaoRepository: UnidadeLocacaoRepository
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMapsBinding.inflate(layoutInflater)
+        binding = ActivityMapsNoLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        mapsButton = findViewById(R.id.mapsButton)
+        mapsLoginButton = findViewById(R.id.mapsLoginButton)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -43,14 +44,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
 
         unidadeLocacaoRepository = UnidadeLocacaoRepository()
 
-        mapsButton.setOnClickListener {
-            val iCreditCard = Intent(this, CadastroCartaoActivity::class.java)
-            startActivity(iCreditCard)
-        }
-
-        binding.sairButton.setOnClickListener {
-            auth = FirebaseAuth.getInstance()
-            auth.signOut()
+        mapsLoginButton.setOnClickListener {
             val iLogin = Intent(this, MainActivity::class.java)
             startActivity(iLogin)
         }
@@ -94,7 +88,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
         val idUnidade = marker.tag as? String
         val iInfoArmario = Intent(this, InfoArmarioActivity::class.java)
         iInfoArmario.putExtra("idUnidade", idUnidade)
-        iInfoArmario.putExtra("activityAnterior", "Maps")
+        iInfoArmario.putExtra("activityAnterior", "MapsNoLogin")
         startActivity(iInfoArmario)
     }
 }

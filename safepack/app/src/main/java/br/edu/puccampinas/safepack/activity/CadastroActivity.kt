@@ -21,6 +21,10 @@ class CadastroActivity : AppCompatActivity() {
     var senha:String = "";
     var uidAuth:String = "";
 
+    private lateinit var auth: FirebaseAuth
+    var email:String =""
+    var senha:String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

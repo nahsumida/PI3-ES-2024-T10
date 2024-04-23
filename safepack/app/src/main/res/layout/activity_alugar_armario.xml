@@ -5,7 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="25dp">
+    android:padding="25dp"
+    tools:context=".activity.AlugarArmarioActivity">
 
     <ImageView
         android:id="@+id/arrow"
@@ -93,9 +94,6 @@
             android:text="até as 18:00"
             android:visibility="gone"
             android:fontFamily="@font/montserratmedium"/> <!-- Defina a visibilidade como "gone" por padrão -->
-
-        <!-- Repita para os outros RadioButton conforme necessário -->
-
     </RadioGroup>
 
     <Button

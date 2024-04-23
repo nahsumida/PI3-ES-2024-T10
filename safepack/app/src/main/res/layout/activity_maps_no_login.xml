@@ -6,39 +6,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MapsActivity">
-
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="139dp"
-        android:background="#5C58FF"
-        android:orientation="horizontal"
-        android:layout_above="@id/map">
-
-        <ImageView
-            android:layout_width="204dp"
-            android:layout_height="111dp"
-            android:src="@drawable/logo_name_big_big"
-            android:layout_marginLeft="15dp"/>
-
-    </LinearLayout> -->
-    <Button
-        android:id="@+id/sairButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sair"
-        android:layout_margin="16dp"/>
+    tools:context=".activities.MapsNoLoginActivity">
 
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="0dp"
-        tools:context=".activity.MapsActivity" />
+        android:layout_marginBottom="0dp" />
 
     <Button
-        android:id="@+id/mapsButton"
+        android:id="@+id/mapsLoginButton"
         android:layout_width="325dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -47,10 +25,8 @@
         android:backgroundTint="@color/lavander"
         android:fontFamily="@font/montserratsemibold"
         android:padding="20dp"
-        android:text="Cadastrar Cartão"
+        android:text="Realizar Login"
         android:textSize="18dp"
         android:textAllCaps="false"/>
 
 </RelativeLayout>
-
-
