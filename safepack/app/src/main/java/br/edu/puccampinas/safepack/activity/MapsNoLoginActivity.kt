@@ -1,4 +1,4 @@
-package br.edu.puccampinas.safepack.activities
+package br.edu.puccampinas.safepack.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +7,6 @@ import android.util.Log
 import android.widget.Button
 import br.edu.puccampinas.safepack.R
 
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -17,9 +16,6 @@ import br.edu.puccampinas.safepack.databinding.ActivityMapsNoLoginBinding
 import br.edu.puccampinas.safepack.repositories.UnidadeLocacaoRepository
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
 import com.google.android.gms.maps.model.Marker
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 class MapsNoLoginActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickListener {
 
