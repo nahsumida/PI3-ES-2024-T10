@@ -6,6 +6,7 @@ class UnidadeLocacao (id: String,
                       endereco: String,
                       geoLocalizacao: GeoPoint,
                       nome: String,
-                      referencia: String){
+                      referencia: String,
+                      valorHora: Double){
 
 }

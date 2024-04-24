@@ -29,6 +29,7 @@ class InfoArmarioActivity : AppCompatActivity()  {
 
         binding.alugarArmarioButton.setOnClickListener {
             val iAlugarArmario = Intent(this, AlugarArmarioActivity::class.java)
+            iAlugarArmario.putExtra("idUnidade", idUnidade)
             startActivity(iAlugarArmario)
         }
 

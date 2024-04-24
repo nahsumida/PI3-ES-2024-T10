@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Safepack"
         tools:targetApi="31">
-
+        <activity
+            android:name=".activity.QrCodeActivity"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -27,7 +29,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
-
 
         <activity
             android:name=".activity.MapsNoLoginActivity"

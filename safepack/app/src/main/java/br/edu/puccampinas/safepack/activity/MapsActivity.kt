@@ -70,7 +70,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
         unidadeLocacaoRepository.getAllUnidades()
             .addOnSuccessListener { unidades ->
                 for (unidade in unidades) {
-                    val geoPoint = unidade.getGeoPoint("geoLocalizacao")
+                    val geoPoint = unidade.getGeoPoint("geolocalizacao")
                     if(geoPoint != null) {
                         val latLng = LatLng(geoPoint.latitude, geoPoint.longitude)
                         val marker = mMap.addMarker(
