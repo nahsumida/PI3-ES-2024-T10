@@ -1,5 +1,6 @@
 package br.edu.puccampinas.safepack.activity
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -8,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import br.edu.puccampinas.safepack.R
 import br.edu.puccampinas.safepack.databinding.ActivityQrCodeBinding
+import br.edu.puccampinas.safepack.repositories.UnidadeLocacaoRepository
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
@@ -15,6 +17,7 @@ import com.google.zxing.qrcode.QRCodeWriter
 
 class QrCodeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityQrCodeBinding
+    private lateinit var unidadeR: UnidadeLocacaoRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,20 +25,26 @@ class QrCodeActivity : AppCompatActivity() {
         binding = ActivityQrCodeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*
-        val idLocacao = intent.getStringExtra("idLocacao")
-        val largura = 800
-        val altura = 800
+        unidadeR = UnidadeLocacaoRepository()
 
-        val bitmap: Bitmap? = gerarQRCode(idLocacao, largura, altura)
+        val idUnidade = intent.getStringExtra("idQRCode")
+
+        if(idUnidade != null) adicionarGerente(unidadeR, binding, idUnidade)
+
+        val bitmap: Bitmap? = gerarQRCode(idUnidade, 800, 800)
 
         bitmap?.let {
             binding.imageQRCode.setImageBitmap(it)
-        } */
+        }
+
+        binding.avancarButton.setOnClickListener {
+            val iArmarioLiberado = Intent(this, ArmarioLiberadoActivity::class.java)
+            startActivity(iArmarioLiberado)
+        }
 
     }
 
-    /*private fun gerarQRCode(texto: String?, largura: Int, altura: Int): Bitmap? {
+    private fun gerarQRCode(texto: String?, largura: Int, altura: Int): Bitmap? {
         val qrCodeWriter = QRCodeWriter()
 
         try {
@@ -56,5 +65,15 @@ class QrCodeActivity : AppCompatActivity() {
         }
 
         return null
-    }*/
+    }
+
+    private fun adicionarGerente(unidadeR: UnidadeLocacaoRepository,
+                                 binding: ActivityQrCodeBinding,
+                                 idUnidade: String) {
+        unidadeR.getUnidadeById(idUnidade)
+            .addOnSuccessListener { unidade ->
+                val textoGerente = "${binding.tvGerente.text}${unidade.getString("gerente")}"
+                binding.tvGerente.text = textoGerente
+            }
+    }
 }

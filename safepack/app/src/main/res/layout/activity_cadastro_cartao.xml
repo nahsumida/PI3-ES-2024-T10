@@ -81,7 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:text="*Todas as vezes, ao realizar alguma locação, será cobrada a caução de uma diária. De acordo com o período utilizado, o valor do tempo não utilizado será estornado"
+            android:text="*Todas as vezes, ao realizar alguma locação, será cobrada a caução de uma diária. De acordo com o período utilizado, o valor do tempo não utilizado será estornado."
             android:fontFamily="@font/montserratmedium"/>
 
         <Button

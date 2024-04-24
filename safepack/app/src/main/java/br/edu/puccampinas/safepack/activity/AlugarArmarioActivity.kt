@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.safepack.R
 import br.edu.puccampinas.safepack.databinding.ActivityAlugarArmarioBinding
@@ -12,6 +13,8 @@ import br.edu.puccampinas.safepack.models.Locacao
 import br.edu.puccampinas.safepack.repositories.LocacaoRepository
 import br.edu.puccampinas.safepack.repositories.UnidadeLocacaoRepository
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 class AlugarArmarioActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAlugarArmarioBinding
@@ -41,20 +44,24 @@ class AlugarArmarioActivity : AppCompatActivity() {
         }
 
         binding.confirmarLocacaoButton.setOnClickListener {
-            val idButton = radioGroup.checkedRadioButtonId
-            val selectedButton: RadioButton = findViewById(idButton)
-            Log.d("RADIO", "${selectedButton.text}")
-            if(idUnidade != null) {
-                adicionarLocacao(idUnidade,
-                    unidadeLocacaoRepository,
-                    selectedButton.text.toString(),
-                    locacaoRepository)
+            val currentUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+            Log.d("AUTH", "${currentUser}")
+            if(currentUser!=null) {
+                val idButton = radioGroup.checkedRadioButtonId
+                val selectedButton: RadioButton = findViewById(idButton)
+                if(idUnidade != null) {
+                    adicionarLocacao(idUnidade,
+                        unidadeLocacaoRepository,
+                        selectedButton.text.toString(),
+                        locacaoRepository)
 
-                val idLocacao = "/$idUnidade"
-                Log.d("QRCODE", idLocacao)
-                val iQRCode = Intent(this, QrCodeActivity::class.java)
-                iQRCode.putExtra("idQRCode", idLocacao)
-                startActivity(iQRCode)
+                    val iQRCode = Intent(this, QrCodeActivity::class.java)
+                    iQRCode.putExtra("idQRCode", idUnidade)
+                    startActivity(iQRCode)
+                }
+            } else {
+                Toast.makeText(this, "Realize o login para poder alugar o armário",
+                    Toast.LENGTH_SHORT).show()
             }
         }
     }
