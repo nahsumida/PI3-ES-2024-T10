@@ -1,6 +1,5 @@
-package br.edu.puccampinas.safepack.repository
+package br.edu.puccampinas.safepack.repositories
 
-import br.edu.puccampinas.safepack.models.UnidadeLocacao
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore

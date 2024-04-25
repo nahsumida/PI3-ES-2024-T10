@@ -28,6 +28,7 @@ import br.edu.puccampinas.safepack.repositories.PessoaRepository
 import br.edu.puccampinas.safepack.repositories.UnidadeLocacaoRepository
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker

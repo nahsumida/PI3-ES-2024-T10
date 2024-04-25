@@ -1,4 +1,4 @@
-package br.edu.puccampinas.safepack.model
+package br.edu.puccampinas.safepack.models
 
 class Pessoa (var nomeCompleto: String,
               var cpf: String,

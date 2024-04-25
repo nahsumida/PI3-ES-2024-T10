@@ -9,14 +9,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.safepack.databinding.ActivityCadastroBinding
-import br.edu.puccampinas.safepack.model.Pessoa
+import br.edu.puccampinas.safepack.models.Pessoa
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.functions.FirebaseFunctions
-import com.google.type.DateTime
-import okio.ByteString
-import java.net.URL
-import java.text.SimpleDateFormat
 
 class CadastroActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCadastroBinding
