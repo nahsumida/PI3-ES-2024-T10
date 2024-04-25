@@ -26,6 +26,8 @@ class ArmarioLiberadoActivity : AppCompatActivity() {
         binding = ActivityArmarioLiberadoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val alertDialog = intent.getStringExtra("alertDialog")
+
         auth = FirebaseAuth.getInstance()
         pessoaRepository = PessoaRepository()
         locacaoRepository = LocacaoRepository()
@@ -33,6 +35,7 @@ class ArmarioLiberadoActivity : AppCompatActivity() {
         binding.voltarMenuButton.setOnClickListener {
             alterarStatusLocacao(auth, "ativa", locacaoRepository, pessoaRepository)
             val iMaps = Intent(this, MapsActivity::class.java)
+            if(alertDialog != null) iMaps.putExtra("alertDialog", alertDialog)
             startActivity(iMaps)
         }
     }

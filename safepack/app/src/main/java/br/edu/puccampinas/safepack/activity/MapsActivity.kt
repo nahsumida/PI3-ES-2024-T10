@@ -8,7 +8,10 @@ import android.icu.util.TimeUnit
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.RadioButton
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -30,6 +33,7 @@ import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickListener {
 
@@ -51,12 +55,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
 
         mapsButton = findViewById(R.id.mapsButton)
 
+        auth = FirebaseAuth.getInstance()
+
         unidadeLocacaoRepository = UnidadeLocacaoRepository()
         locacaoRepository = LocacaoRepository()
         pessoaRepository = PessoaRepository()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-        verificarStatusLocacao(auth, locacaoRepository, pessoaRepository)
 
         mapsButton.setOnClickListener {
             val iCreditCard = Intent(this, CadastroCartaoActivity::class.java)
@@ -64,11 +68,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
         }
 
         binding.sairButton.setOnClickListener {
-            auth = FirebaseAuth.getInstance()
-            auth.signOut()
-            val iLogin = Intent(this, MainActivity::class.java)
-            startActivity(iLogin)
+            sair()
         }
+
+        retirarBotaoCartao()
     }
 
     override fun onStart() {
@@ -88,7 +91,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
 
     override fun onResume() {
         super.onResume()
+
         obterLocalizacao {  }
+
+        val alertDialog = intent.getStringExtra("alertDialog")
+
+        if(alertDialog == null) {
+            verificarStatusLocacao(auth, locacaoRepository, pessoaRepository) {status ->
+                if(status) {
+                    createAlertDialog()
+                }
+            }
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -207,15 +221,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
 
     private fun verificarStatusLocacao(auth: FirebaseAuth,
                                        locacaoR: LocacaoRepository,
-                                       pessoaR: PessoaRepository) {
+                                       pessoaR: PessoaRepository,
+                                       callback: (Boolean) -> Unit) {
         val currentUser = auth.currentUser
         if(currentUser != null) {
             pessoaR.getIdByAuthId(currentUser.uid) {idUser ->
                 if(idUser != "null") {
                     locacaoR.getLocacaoIdByUserIdPendente(idUser) {idLocacao ->
                         if(idLocacao != "null") {
-                            createAlertDialog()
+                            callback(true)
                         }
+                        callback(false)
                     }
                 }
             }
@@ -223,12 +239,112 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
     }
 
     private fun createAlertDialog() {
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(this@MapsActivity)
 
         builder.setTitle("Reserva não finalizada")
         builder.setMessage("A reserva não foi finalizada. Deseja finalizá-la?")
 
         builder.setPositiveButton("Sim") { dialog, which ->
+            val currentUser = auth.currentUser
+            if(currentUser != null) {
+                pessoaRepository.getIdByAuthId(currentUser.uid) {idUser ->
+                    if(idUser != "null") {
+                        locacaoRepository.getLocacaoIdByUserIdPendente(idUser) {idLocacao ->
+                            if(idLocacao != "null") {
+                                locacaoRepository.getLocacaoById(idLocacao)
+                                    .addOnSuccessListener{locacao ->
+                                        val idUnidade = locacao.getString("unidadeId")
+                                        val iQRCode = Intent(this, QrCodeActivity::class.java)
+                                        iQRCode.putExtra("idQRCode", idUnidade)
+                                        iQRCode.putExtra("alertDialog", "1")
+                                        startActivity(iQRCode)
+                                    }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        builder.setNegativeButton("Cancelar") { dialog, which ->
+            alterarStatusLocacao(auth, locacaoRepository, pessoaRepository)
+            dialog.dismiss()
+        }
+
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.show()
+    }
+
+    private fun alterarStatusLocacao(auth: FirebaseAuth,
+                                     locacaoR: LocacaoRepository,
+                                     pessoaR: PessoaRepository) {
+        val currentUser = auth.currentUser
+        if(currentUser != null) {
+            pessoaR.getIdByAuthId(currentUser.uid) {idUser ->
+                if(idUser != "null") {
+                    locacaoR.getLocacaoIdByUserIdPendente(idUser) {idLocacao ->
+                        if(idLocacao != "null") {
+                            locacaoR.setStatusLocacao(idLocacao, "encerrada")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun retirarBotaoCartao() {
+        val currentUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+        Log.d("AUTH", "${auth.currentUser?.uid}")
+        if(currentUser != null) {
+            Log.d("AUTH", "Usuário logado")
+            verificarCartao(auth, pessoaRepository) {result ->
+                Log.d("CARTAO", "VERIFICADO: $result")
+                if(result) {
+                    mapsButton.visibility = View.GONE
+                }
+            }
+        }
+    }
+
+    private fun verificarCartao(auth: FirebaseAuth,
+                                pessoaR: PessoaRepository,
+                                callback: (Boolean) -> Unit) {
+
+        val authId: String? = auth.currentUser?.uid
+        var pessoaId = ""
+        pessoaR.getAllPessoas()
+            .addOnSuccessListener { pessoas ->
+                var cartaoEncontrado = false
+                for(pessoa in pessoas) {
+                    if(pessoa.getString("authID").equals(authId)) {
+                        pessoaId += pessoa.id
+                        pessoaR.getCartaoPessoa(pessoaId)
+                            .addOnSuccessListener { cartoes ->
+                                for(cartao in cartoes) {
+                                    cartaoEncontrado = true
+                                    callback(true)
+                                }
+                            }
+                            .addOnFailureListener {e ->
+                                Log.e("GET_CARTAO", "ERRO", e)
+                            }
+                        break
+                    }
+                }
+                if(!cartaoEncontrado) callback(false)
+            }
+    }
+
+    private fun sair() {
+        val builder = AlertDialog.Builder(this@MapsActivity)
+
+        builder.setTitle("Safepack")
+        builder.setMessage("Tem certeza que deseja sair?")
+
+        builder.setPositiveButton("Sim") { dialog, which ->
+            auth.signOut()
+            val iLogin = Intent(this, MainActivity::class.java)
+            startActivity(iLogin)
             dialog.dismiss()
         }
 

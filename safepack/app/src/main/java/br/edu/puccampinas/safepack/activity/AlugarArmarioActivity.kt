@@ -71,9 +71,16 @@ class AlugarArmarioActivity : AppCompatActivity() {
                                 pessoaRepository
                             )
 
-                            val iQRCode = Intent(this, QrCodeActivity::class.java)
-                            iQRCode.putExtra("idQRCode", idUnidade)
-                            startActivity(iQRCode)
+                            unidadeLocacaoRepository.getUnidadeById(idUnidade)
+                                .addOnSuccessListener { unidade ->
+                                    val caucaoDiaria = calcularValor(5.0,
+                                        unidade.getDouble("valorHora"))
+                                    Log.d("COBRANÇA CARTÃO", "Valor diária: R$$caucaoDiaria")
+
+                                    val iQRCode = Intent(this, QrCodeActivity::class.java)
+                                    iQRCode.putExtra("idQRCode", idUnidade)
+                                    startActivity(iQRCode)
+                                }
                         }
                     } else {
                         Toast.makeText(this, "Cadastre um cartão para poder alugar o armário",
@@ -100,11 +107,11 @@ class AlugarArmarioActivity : AppCompatActivity() {
                 binding.radioButton3.text = stringPreco(binding.radioButton3.text.toString(),
                     calcularValor(2.0,unidade.getDouble("valorHora")))
                 binding.radioButton4.text = stringPreco(binding.radioButton4.text.toString(),
-                    calcularValor(2.5,unidade.getDouble("valorHora")))
-                binding.radioButton5.text = stringPreco(binding.radioButton5.text.toString(),
                     calcularValor(3.0,unidade.getDouble("valorHora")))
-                binding.radioButton6.text = stringPreco(binding.radioButton6.text.toString(),
+                binding.radioButton5.text = stringPreco(binding.radioButton5.text.toString(),
                     calcularValor(4.0,unidade.getDouble("valorHora")))
+                binding.radioButton6.text = stringPreco(binding.radioButton6.text.toString(),
+                    calcularValor(5.0,unidade.getDouble("valorHora")))
             }
         } .addOnFailureListener { e ->
             Log.e("Firestore Valor", "ERRO", e)
@@ -112,7 +119,7 @@ class AlugarArmarioActivity : AppCompatActivity() {
     }
 
     private fun stringPreco(texto: String, valor: Double): String {
-        Log.d("String", "$texto + $valor")
+        Log.d("PREÇO", "$texto + $valor")
         return texto + valor
     }
 
