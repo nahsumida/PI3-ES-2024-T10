@@ -74,8 +74,8 @@ class MainActivity : AppCompatActivity() {
         })
 
         binding.esqueceuSenhaText.setOnClickListener {
-            val iAlterarSenha = Intent(this, AlterarSenhaActivity::class.java)
-            startActivity(iAlterarSenha)
+            val iRecuperarSenha = Intent(this, RecuperarSenhaActivity::class.java)
+            startActivity(iRecuperarSenha)
         }
     }
 
