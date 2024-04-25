@@ -30,7 +30,10 @@ class MainActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance();
 
-        if(auth.currentUser!=null) startActivity(Intent(this, MapsActivity::class.java))
+        if(auth.currentUser!=null) {
+            val iMaps = Intent(this, MapsActivity::class.java)
+            startActivity(iMaps)
+        }
 
         binding.loginButton.setOnClickListener(View.OnClickListener {
             email = binding.email.text.toString().trim();

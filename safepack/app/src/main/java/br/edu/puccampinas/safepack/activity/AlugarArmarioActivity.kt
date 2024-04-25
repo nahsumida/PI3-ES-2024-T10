@@ -11,6 +11,7 @@ import br.edu.puccampinas.safepack.R
 import br.edu.puccampinas.safepack.databinding.ActivityAlugarArmarioBinding
 import br.edu.puccampinas.safepack.models.Locacao
 import br.edu.puccampinas.safepack.repositories.LocacaoRepository
+import br.edu.puccampinas.safepack.repositories.PessoaRepository
 import br.edu.puccampinas.safepack.repositories.UnidadeLocacaoRepository
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
@@ -21,6 +22,8 @@ class AlugarArmarioActivity : AppCompatActivity() {
     private lateinit var unidadeLocacaoRepository: UnidadeLocacaoRepository
     private lateinit var radioGroup: RadioGroup
     private lateinit var locacaoRepository: LocacaoRepository
+    private lateinit var pessoaRepository: PessoaRepository
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,37 +32,56 @@ class AlugarArmarioActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         unidadeLocacaoRepository = UnidadeLocacaoRepository()
-
         locacaoRepository = LocacaoRepository()
+        pessoaRepository = PessoaRepository()
+
+        auth = FirebaseAuth.getInstance()
 
         radioGroup = findViewById(R.id.radioGroup)
 
         val idUnidade = intent.getStringExtra("idUnidade")
+        val statusLogin = intent.getStringExtra("statusLogin")
 
         if (idUnidade!=null) inserirPrecos(binding, idUnidade, unidadeLocacaoRepository)
 
         binding.arrow.setOnClickListener {
             val iInfoArmario = Intent(this, InfoArmarioActivity::class.java)
+            iInfoArmario.putExtra("statusLogin", statusLogin)
+            iInfoArmario.putExtra("idUnidade", idUnidade)
             startActivity(iInfoArmario)
         }
 
         binding.confirmarLocacaoButton.setOnClickListener {
             val currentUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-            Log.d("AUTH", "${currentUser}")
-            if(currentUser!=null) {
-                val idButton = radioGroup.checkedRadioButtonId
-                val selectedButton: RadioButton = findViewById(idButton)
-                if(idUnidade != null) {
-                    adicionarLocacao(idUnidade,
-                        unidadeLocacaoRepository,
-                        selectedButton.text.toString(),
-                        locacaoRepository)
+            Log.d("AUTH", "${auth.currentUser?.uid}")
+            if(currentUser != null) {
+                Log.d("AUTH", "Usuário logado")
+                verificarCartao(auth, pessoaRepository) {result ->
+                    Log.d("CARTAO", "VERIFICADO: $result")
+                    if(result) {
+                        Log.d("VERIFICADO", "O usuário possui cartão")
+                        val idButton = radioGroup.checkedRadioButtonId
+                        val selectedButton: RadioButton = findViewById(idButton)
+                        if (idUnidade != null) {
+                            adicionarLocacao(
+                                idUnidade,
+                                unidadeLocacaoRepository,
+                                selectedButton.text.toString(),
+                                locacaoRepository,
+                                pessoaRepository
+                            )
 
-                    val iQRCode = Intent(this, QrCodeActivity::class.java)
-                    iQRCode.putExtra("idQRCode", idUnidade)
-                    startActivity(iQRCode)
+                            val iQRCode = Intent(this, QrCodeActivity::class.java)
+                            iQRCode.putExtra("idQRCode", idUnidade)
+                            startActivity(iQRCode)
+                        }
+                    } else {
+                        Toast.makeText(this, "Cadastre um cartão para poder alugar o armário",
+                            Toast.LENGTH_SHORT).show()
+                    }
                 }
             } else {
+                Log.d("AUTH", "Usuário não está logado")
                 Toast.makeText(this, "Realize o login para poder alugar o armário",
                     Toast.LENGTH_SHORT).show()
             }
@@ -99,6 +121,35 @@ class AlugarArmarioActivity : AppCompatActivity() {
         return 0.0
     }
 
+    private fun verificarCartao(auth: FirebaseAuth,
+                                pessoaR: PessoaRepository,
+                                callback: (Boolean) -> Unit) {
+
+        val authId: String? = auth.currentUser?.uid
+        var pessoaId = ""
+        pessoaR.getAllPessoas()
+            .addOnSuccessListener { pessoas ->
+                var cartaoEncontrado = false
+                for(pessoa in pessoas) {
+                    if(pessoa.getString("authID").equals(authId)) {
+                        pessoaId += pessoa.id
+                        pessoaR.getCartaoPessoa(pessoaId)
+                            .addOnSuccessListener { cartoes ->
+                                for(cartao in cartoes) {
+                                    cartaoEncontrado = true
+                                    callback(true)
+                                }
+                            }
+                            .addOnFailureListener {e ->
+                                Log.e("GET_CARTAO", "ERRO", e)
+                            }
+                        break
+                    }
+                }
+                if(!cartaoEncontrado) callback(false)
+            }
+    }
+
     private fun converterString(texto: String): String {
         val primeiroChar = texto[0]
         when(primeiroChar) {
@@ -115,11 +166,14 @@ class AlugarArmarioActivity : AppCompatActivity() {
     private fun adicionarLocacao(idUnidade: String,
                                  unidadeR: UnidadeLocacaoRepository,
                                  textoRadio: String,
-                                 locacaoR: LocacaoRepository){
+                                 locacaoR: LocacaoRepository,
+                                 pessoaR: PessoaRepository){
         val tempo = converterString(textoRadio)
         var armarioId = ""
-        val locatarioId = "teste"
+        var locatarioId = ""
         val inicio = Timestamp.now()
+        val authId:String? = auth.currentUser?.uid
+        val status = "pendente"
 
         unidadeR.getArmariosDaUnidade(idUnidade)
             .addOnSuccessListener { armarios ->
@@ -130,21 +184,31 @@ class AlugarArmarioActivity : AppCompatActivity() {
                         break
                     }
                 }
-                unidadeR.getUnidadeById(idUnidade).addOnSuccessListener { unidade ->
-                    if(unidade != null && unidade.exists()) {
-                        val valorHora = unidade.getDouble("valorHora")
+                pessoaR.getAllPessoas()
+                    .addOnSuccessListener { pessoas ->
+                        for(pessoa in pessoas) {
+                            if(pessoa.getString("authID").equals(authId)) {
+                                locatarioId += pessoa.id
+                                break
+                            }
+                        }
+                        unidadeR.getUnidadeById(idUnidade).addOnSuccessListener { unidade ->
+                            if(unidade != null && unidade.exists()) {
+                                val valorHora = unidade.getDouble("valorHora")
 
-                        val locacao = Locacao(
-                            armarioId,
-                            inicio,
-                            locatarioId,
-                            tempo,
-                            idUnidade,
-                            valorHora)
+                                val locacao = Locacao(
+                                    armarioId,
+                                    inicio,
+                                    locatarioId,
+                                    status,
+                                    tempo,
+                                    idUnidade,
+                                    valorHora)
 
-                        locacaoR.addLocacao(locacao)
+                                locacaoR.addLocacao(locacao)
+                            }
+                        }
                     }
-                }
             }
             .addOnFailureListener { e ->
                 Log.e("FIRESTORE", "ERRO getArmarios", e)

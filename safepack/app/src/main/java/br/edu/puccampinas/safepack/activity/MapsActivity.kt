@@ -1,10 +1,17 @@
 package br.edu.puccampinas.safepack.activity
 
+import android.Manifest
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.icu.util.TimeUnit
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import br.edu.puccampinas.safepack.R
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -14,8 +21,13 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import br.edu.puccampinas.safepack.databinding.ActivityMapsBinding
+import br.edu.puccampinas.safepack.repositories.LocacaoRepository
+import br.edu.puccampinas.safepack.repositories.PessoaRepository
 import br.edu.puccampinas.safepack.repositories.UnidadeLocacaoRepository
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
 import com.google.firebase.auth.FirebaseAuth
 
@@ -26,7 +38,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
     private lateinit var mapsButton: Button
     private lateinit var auth: FirebaseAuth
     private lateinit var unidadeLocacaoRepository: UnidadeLocacaoRepository
-
+    private lateinit var locacaoRepository: LocacaoRepository
+    private lateinit var pessoaRepository: PessoaRepository
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val LOCATION_PERMISSION_REQUEST_CODE = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,12 +51,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
 
         mapsButton = findViewById(R.id.mapsButton)
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-
         unidadeLocacaoRepository = UnidadeLocacaoRepository()
+        locacaoRepository = LocacaoRepository()
+        pessoaRepository = PessoaRepository()
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        verificarStatusLocacao(auth, locacaoRepository, pessoaRepository)
 
         mapsButton.setOnClickListener {
             val iCreditCard = Intent(this, CadastroCartaoActivity::class.java)
@@ -56,10 +71,72 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        if(ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE)
+        } else {
+            initMap()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        obterLocalizacao {  }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                initMap()
+            }
+        } else {
+            Log.e("Location", "Permissão de localização negada")
+        }
+    }
+
+    private fun initMap() {
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
         mMap.setOnInfoWindowClickListener(this)
+
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            mMap.isMyLocationEnabled = true
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location ->
+                    if (location != null) {
+                        val userLatLng = LatLng(location.latitude, location.longitude)
+                        mMap.addMarker(
+                            MarkerOptions()
+                                .position(userLatLng)
+                                .title("Sua Localização")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                        )
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15f))
+                    }
+                }
+        }
 
         addMarkers(mMap)
     }
@@ -83,7 +160,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
                         }
                     }
                 }
-                //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(places[0].latLng, 15F))
             }
             .addOnFailureListener { exception ->
                 Log.e("Firestore", "Erro ao recuperar dados: ${exception.message}")
@@ -92,9 +168,76 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
 
     override fun onInfoWindowClick(marker: Marker) {
         val idUnidade = marker.tag as? String
-        val iInfoArmario = Intent(this, InfoArmarioActivity::class.java)
-        iInfoArmario.putExtra("idUnidade", idUnidade)
-        iInfoArmario.putExtra("activityAnterior", "Maps")
-        startActivity(iInfoArmario)
+        Log.d("WINDOW_CLICK", "Id: $idUnidade")
+        obterLocalizacao { latLngUser ->
+            val iInfoArmario = Intent(this, InfoArmarioActivity::class.java)
+            iInfoArmario.putExtra("idUnidade", idUnidade)
+            iInfoArmario.putExtra("activityAnterior", "Maps")
+            iInfoArmario.putExtra("latitude", "${latLngUser.latitude}")
+            Log.d("LOCALIZACAO", "Latitude: ${latLngUser.latitude}")
+            iInfoArmario.putExtra("longitude", "${latLngUser.longitude}")
+            Log.d("LOCALIZACAO", "Longitude: ${latLngUser.longitude}")
+            iInfoArmario.putExtra("statusLogin", "1")
+            startActivity(iInfoArmario)
+        }
     }
+
+    private fun obterLocalizacao(callback: (LatLng) -> Unit) {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE)
+        } else {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                if (location != null) {
+                    val latLng = LatLng(location.latitude, location.longitude)
+                    callback(latLng) // Chama a função de callback com a localização
+                }
+            }
+        }
+    }
+
+    private fun verificarStatusLocacao(auth: FirebaseAuth,
+                                       locacaoR: LocacaoRepository,
+                                       pessoaR: PessoaRepository) {
+        val currentUser = auth.currentUser
+        if(currentUser != null) {
+            pessoaR.getIdByAuthId(currentUser.uid) {idUser ->
+                if(idUser != "null") {
+                    locacaoR.getLocacaoIdByUserIdPendente(idUser) {idLocacao ->
+                        if(idLocacao != "null") {
+                            createAlertDialog()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun createAlertDialog() {
+        val builder = AlertDialog.Builder(this)
+
+        builder.setTitle("Reserva não finalizada")
+        builder.setMessage("A reserva não foi finalizada. Deseja finalizá-la?")
+
+        builder.setPositiveButton("Sim") { dialog, which ->
+            dialog.dismiss()
+        }
+
+        builder.setNegativeButton("Cancelar") { dialog, which ->
+            dialog.dismiss()
+        }
+
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.show()
+    }
+
 }

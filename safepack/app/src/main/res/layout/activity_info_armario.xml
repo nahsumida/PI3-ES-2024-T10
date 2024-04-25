@@ -39,7 +39,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="152dp"
             android:layout_marginTop="30dp"
             android:src="@drawable/armario_grande" />
         
@@ -96,6 +96,14 @@
                 android:fontFamily="@font/montserratmedium"/>
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="*Para que seja possível realizar a locação, é necessário que se encontre a um raio de no mínimo 15 metros do armário."
+            android:fontFamily="@font/montserratmedium"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/irAoLocalButton"
