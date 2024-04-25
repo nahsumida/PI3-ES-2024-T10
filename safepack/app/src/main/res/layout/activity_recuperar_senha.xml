@@ -49,7 +49,7 @@ e-mail cadastrado e lhe enviaremos um link com as instruções"
         <EditText
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:id="@+id/senhaConfirmacao"
+            android:id="@+id/emailCadastrado"
             android:layout_marginTop="80dp"
             android:padding="8dp"
             android:hint="Email cadastrado"
