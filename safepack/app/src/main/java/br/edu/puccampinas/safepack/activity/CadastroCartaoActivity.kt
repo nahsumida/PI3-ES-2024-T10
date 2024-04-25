@@ -10,10 +10,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class CadastroCartaoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCadastroCartaoBinding
-    var numCartao:String = "";
-    var nomeTitular:String = "";
-    var validade:String = "";
-    var cvv:String = "";
+    lateinit var numCartao:String;
+    lateinit var nomeTitular:String;
+    lateinit var validade:String;
+    lateinit var cvv:String;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -13,7 +13,8 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/baseline_keyboard_backspace_24" />
+        android:src="@drawable/baseline_keyboard_backspace_24"
+        android:id="@+id/arrow"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -72,13 +73,14 @@ e-mail cadastrado e lhe enviaremos um link com as instruções"
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
             android:text="Cancelar"
             android:id="@+id/cancelarText"
             android:textSize="15dp"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:fontFamily="@font/montserratsemibold"/>
+
         </LinearLayout>
 
 </LinearLayout>

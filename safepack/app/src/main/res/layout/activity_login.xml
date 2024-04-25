@@ -1,94 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:gravity="center"
     android:background="@drawable/background_login"
-    tools:context=".activity.MainActivity"
-    android:layout_gravity="center_horizontal"
-    android:padding="25dp">
+    android:padding="25dp"
+    tools:context=".activity.MainActivity">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="258dp"
-        android:src="@drawable/logo_name_white_big" />
+        android:id="@+id/imageViewLogo"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:src="@drawable/logo_name_white_big_copy"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Login"
         android:id="@+id/loginText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Entrar"
         android:textSize="36dp"
         android:textStyle="bold"
         android:textColor="@color/black"
-        android:layout_marginTop="0dp"
-        android:fontFamily="@font/montserratbold"/>
+        android:fontFamily="@font/montserratbold"
+        app:layout_constraintTop_toBottomOf="@id/imageViewLogo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
         android:id="@+id/email"
-        android:layout_marginTop="45dp"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
         android:padding="8dp"
         android:hint="Digite seu email"
         android:drawableLeft="@drawable/baseline_alternate_email_24"
         android:textColor="@color/black"
-        android:drawablePadding="8dp"/>
+        android:drawablePadding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/loginText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
         android:id="@+id/senha"
-        android:layout_marginTop="15dp"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
         android:inputType="textPassword"
         android:padding="8dp"
         android:hint="Digite sua senha"
         android:drawableLeft="@drawable/baseline_lock_outline_24"
         android:textColor="@color/black"
-        android:drawablePadding="8dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Esqueceu a senha?"
-        android:id="@+id/esqueceuSenhaText"
-        android:textSize="10dp"
-        android:textColor="@color/black"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/montserratmedium"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Login"
-        android:id="@+id/loginButton"
-        android:textSize="18dp"
-        android:layout_marginTop="45dp"
-        android:backgroundTint="@color/lavander"
-        app:cornerRadius = "8dp"
-        android:fontFamily="@font/montserratsemibold"
-        android:textAllCaps="false"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ainda não possui conta? Cadastre-se"
-        android:id="@+id/fazerCadastroText"
-        android:textSize="15dp"
-        android:textColor="@color/black"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/montserratmedium" />
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Ver mapa sem login"
-        android:id="@+id/verMapaButton"
-        android:textSize="15dp"
-        android:layout_marginTop="45dp"
-        android:backgroundTint="#A2A2A2"
-        app:cornerRadius = "8dp"
-        android:fontFamily="@font/montserratsemibold"
-        android:textAllCaps="false"/>
+        android:drawablePadding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/esqueceuSenhaText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Esqueceu a senha?"
+        android:textSize="15dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/montserratlight"
+        app:layout_constraintTop_toBottomOf="@id/senha"
+
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="50dp"
+        android:text="Login"
+        android:textSize="18dp"
+        android:backgroundTint="@color/lavander"
+        app:cornerRadius="8dp"
+        android:fontFamily="@font/montserratsemibold"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/esqueceuSenhaText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/fazerCadastroText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Ainda não possui conta? Cadastre-se"
+        android:textSize="15dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/montserratmedium"
+        app:layout_constraintTop_toBottomOf="@id/loginButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/ouText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="OU"
+        android:textSize="15dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/montserratmedium"
+        app:layout_constraintTop_toBottomOf="@id/fazerCadastroText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/verMapaButton"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="Acessar mapa sem login"
+        android:textSize="15dp"
+        android:backgroundTint="#A2A2A2"
+        android:layout_marginTop="20dp"
+
+        app:cornerRadius="8dp"
+        android:fontFamily="@font/montserratsemibold"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/ouText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

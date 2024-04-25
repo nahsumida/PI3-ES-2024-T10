@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.safepack.databinding.ActivityAlugarArmarioBinding
 import br.edu.puccampinas.safepack.databinding.ActivityCadastroBinding
@@ -15,16 +16,43 @@ import java.net.URL
 
 class RecuperarSenhaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRecuperarSenhaBinding
+    private lateinit var auth: FirebaseAuth;
+
+    lateinit var email: String;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityAlugarArmarioBinding.inflate(layoutInflater)
+        auth = FirebaseAuth.getInstance();
+
+        val binding = ActivityRecuperarSenhaBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.arrow.setOnClickListener {
-            val iInfoArmario = Intent(this, InfoArmarioActivity::class.java)
-            startActivity(iInfoArmario)
+        binding.enviarLinkButton.setOnClickListener {
+            email = binding.emailCadastrado.text.toString().trim();
+
+            auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
+                //se o envio for um sucesso
+                if(task.isSuccessful){
+                    Log.d(ContentValues.TAG, "sendPasswordResetEmail:success")
+                    Toast.makeText(baseContext, "Email de recuperação enviado, verifique seu email", Toast.LENGTH_SHORT).show()
+                }else{
+                    Log.w(ContentValues.TAG, "sendPasswordResetEmail:failure", task.exception)
+                    Toast.makeText(baseContext, "Falha ao enviar email de recuperação", Toast.LENGTH_SHORT).show()
+                }
+            }
+            val iLoginActivity = Intent(this, MainActivity::class.java)
+            startActivity(iLoginActivity)
+        }
+
+        binding.cancelarText.setOnClickListener{
+            val iLoginActivity = Intent(this, MainActivity::class.java)
+            startActivity(iLoginActivity)
+        }
+
+        binding.arrow.setOnClickListener{
+            val iLoginActivity = Intent(this, MainActivity::class.java)
+            startActivity(iLoginActivity)
         }
 
     }
