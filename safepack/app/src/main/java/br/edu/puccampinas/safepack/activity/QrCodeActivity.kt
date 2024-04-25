@@ -24,6 +24,7 @@ class QrCodeActivity : AppCompatActivity() {
         unidadeR = UnidadeLocacaoRepository()
 
         val idUnidade = intent.getStringExtra("idQRCode")
+        val alertDialog = intent.getStringExtra("alertDialog")
 
         if(idUnidade != null) adicionarGerente(unidadeR, binding, idUnidade)
 
@@ -35,6 +36,7 @@ class QrCodeActivity : AppCompatActivity() {
 
         binding.avancarButton.setOnClickListener {
             val iArmarioLiberado = Intent(this, ArmarioLiberadoActivity::class.java)
+            if(alertDialog != null) iArmarioLiberado.putExtra("alertDialog", "1")
             startActivity(iArmarioLiberado)
         }
 
