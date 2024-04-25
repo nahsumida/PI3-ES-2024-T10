@@ -1,4 +1,4 @@
-package br.edu.puccampinas.safepack.repositories
+package br.edu.puccampinas.safepack.repository
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot

@@ -7,7 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.safepack.databinding.ActivityInfoArmarioBinding
-import br.edu.puccampinas.safepack.repositories.UnidadeLocacaoRepository
+import br.edu.puccampinas.safepack.repository.UnidadeLocacaoRepository
 
 class InfoArmarioActivity : AppCompatActivity()  {
     private lateinit var binding: ActivityInfoArmarioBinding

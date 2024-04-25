@@ -1,7 +1,7 @@
-package br.edu.puccampinas.safepack.repositories
+package br.edu.puccampinas.safepack.repository
 
 import android.util.Log
-import br.edu.puccampinas.safepack.models.Locacao
+import br.edu.puccampinas.safepack.model.Locacao
 import com.google.firebase.firestore.FirebaseFirestore
 
 class LocacaoRepository {

@@ -9,9 +9,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.safepack.R
 import br.edu.puccampinas.safepack.databinding.ActivityAlugarArmarioBinding
-import br.edu.puccampinas.safepack.models.Locacao
-import br.edu.puccampinas.safepack.repositories.LocacaoRepository
-import br.edu.puccampinas.safepack.repositories.UnidadeLocacaoRepository
+import br.edu.puccampinas.safepack.model.Locacao
+import br.edu.puccampinas.safepack.repository.LocacaoRepository
+import br.edu.puccampinas.safepack.repository.UnidadeLocacaoRepository
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser

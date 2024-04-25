@@ -13,7 +13,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import br.edu.puccampinas.safepack.databinding.ActivityMapsNoLoginBinding
-import br.edu.puccampinas.safepack.repositories.UnidadeLocacaoRepository
+import br.edu.puccampinas.safepack.repository.UnidadeLocacaoRepository
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
 import com.google.android.gms.maps.model.Marker
 

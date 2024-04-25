@@ -1,4 +1,4 @@
-package br.edu.puccampinas.safepack.models
+package br.edu.puccampinas.safepack.model
 
 data class Cartao (var nomeTitular: String,
                    var dataValidae: String,

@@ -7,14 +7,13 @@ import android.util.Log
 import android.widget.Button
 import br.edu.puccampinas.safepack.R
 
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import br.edu.puccampinas.safepack.databinding.ActivityMapsBinding
-import br.edu.puccampinas.safepack.repositories.UnidadeLocacaoRepository
+import br.edu.puccampinas.safepack.repository.UnidadeLocacaoRepository
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
 import com.google.android.gms.maps.model.Marker
 import com.google.firebase.auth.FirebaseAuth

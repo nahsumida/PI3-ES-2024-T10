@@ -1,4 +1,4 @@
-package br.edu.puccampinas.safepack.models
+package br.edu.puccampinas.safepack.model
 
 import com.google.firebase.firestore.GeoPoint
 

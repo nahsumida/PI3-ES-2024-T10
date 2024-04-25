@@ -1,6 +1,4 @@
-package br.edu.puccampinas.safepack.models
-
-import com.google.type.DateTime
+package br.edu.puccampinas.safepack.model
 
 class Pessoa (var nomeCompleto: String,
               var cpf: String,

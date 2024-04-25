@@ -3,13 +3,9 @@ package br.edu.puccampinas.safepack.activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import br.edu.puccampinas.safepack.R
 import br.edu.puccampinas.safepack.databinding.ActivityQrCodeBinding
-import br.edu.puccampinas.safepack.repositories.UnidadeLocacaoRepository
+import br.edu.puccampinas.safepack.repository.UnidadeLocacaoRepository
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
