@@ -30,6 +30,8 @@ class MainActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance();
 
+        if(auth.currentUser!=null) startActivity(Intent(this, MapsActivity::class.java))
+
         binding.loginButton.setOnClickListener(View.OnClickListener {
             email = binding.email.text.toString().trim();
             senha = binding.senha.text.toString().trim();
@@ -40,9 +42,9 @@ class MainActivity : AppCompatActivity() {
                         .addOnCompleteListener{task ->
                             if (task.isSuccessful){
                                 authID = task.result.user?.uid.toString()
-                                binding.loginButton.setText(authID)
-                                Toast.makeText(this, "Login sucesso",
-                                    Toast.LENGTH_SHORT).show()
+                                //binding.loginButton.setText(authID)
+                                //Toast.makeText(this, "Login sucesso",
+                                    //Toast.LENGTH_SHORT).show()
                                 val iMaps = Intent(this, MapsActivity::class.java)
                                 startActivity(iMaps)
 

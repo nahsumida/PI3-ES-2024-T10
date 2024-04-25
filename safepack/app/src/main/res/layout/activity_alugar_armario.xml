@@ -22,7 +22,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
-        android:layout_height="180dp"
+        android:layout_height="160dp"
         android:src="@drawable/armario_grande"
         app:layout_constraintTop_toBottomOf="@id/arrow"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@id/imageView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="45dp"/>
+        android:layout_marginTop="40dp"/>
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -50,49 +50,50 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/textView"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="35dp">
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="30dp">
 
         <RadioButton
             android:id="@+id/radioButton1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="30 minutos"
+            android:text="30 minutos  -  R$"
             android:fontFamily="@font/montserratmedium"/>
 
         <RadioButton
             android:id="@+id/radioButton2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1 hora"
-            android:fontFamily="@font/montserratmedium"/>
+            android:text="1 hora  -  R$"
+            android:fontFamily="@font/montserratmedium" />
 
         <RadioButton
             android:id="@+id/radioButton3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2 horas"
+            android:text="2 horas  -  R$"
             android:fontFamily="@font/montserratmedium"/>
 
         <RadioButton
             android:id="@+id/radioButton4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4 horas"
+            android:text="4 horas  -  R$"
             android:fontFamily="@font/montserratmedium"/>
 
         <RadioButton
             android:id="@+id/radioButton5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="6 horas"
+            android:text="6 horas  -  R$"
             android:fontFamily="@font/montserratmedium"/>
 
         <RadioButton
             android:id="@+id/radioButton6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="até as 18:00"
-            android:visibility="gone"
+            android:text="até as 18:00  -  R$"
+            android:visibility="visible"
             android:fontFamily="@font/montserratmedium"/> <!-- Defina a visibilidade como "gone" por padrão -->
     </RadioGroup>
 
@@ -105,7 +106,7 @@
         app:layout_constraintTop_toBottomOf="@id/radioGroup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="25dp"
         android:textSize="18dp"
         app:cornerRadius="8dp"
         android:backgroundTint="@color/lavander"
