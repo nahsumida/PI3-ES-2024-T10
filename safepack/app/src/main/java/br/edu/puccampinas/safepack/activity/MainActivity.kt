@@ -51,10 +51,6 @@ class MainActivity : AppCompatActivity() {
                                     Toast.LENGTH_SHORT).show()
                             }
                         }
-                   /*if (authID != null){
-                        //val idPessoa = getPessoaByAuthID(authID.toString())
-                        //intent.putExtra("idPessoa", idPessoa);
-                    }*/
                 } else {
                     binding.senha.setError("Senha não pode ser vazia")
                 }

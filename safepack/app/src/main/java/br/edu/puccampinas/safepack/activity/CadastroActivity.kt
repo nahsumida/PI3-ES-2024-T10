@@ -4,12 +4,19 @@ import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.safepack.databinding.ActivityCadastroBinding
+import br.edu.puccampinas.safepack.model.Pessoa
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.functions.FirebaseFunctions
+import com.google.type.DateTime
+import okio.ByteString
 import java.net.URL
+import java.text.SimpleDateFormat
 
 class CadastroActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCadastroBinding
@@ -17,9 +24,9 @@ class CadastroActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth;
     private lateinit var functions: FirebaseFunctions;
 
-    var email:String ="";
-    var senha:String = "";
-    var uidAuth:String = "";
+    lateinit var email: String;
+    lateinit var senha: String;
+    lateinit var senhaConf: String;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,23 +39,47 @@ class CadastroActivity : AppCompatActivity() {
         binding.cadastroButton.setOnClickListener(View.OnClickListener {
             email = binding.email.text.toString().trim();
             senha = binding.senha.text.toString().trim();
+            senhaConf = binding.senhaConfirmacao.text.toString().trim();
 
-            if (email.isEmpty()){
-                binding.email.setError("Email não pode estar vazio")
-            }
-            if (senha.isEmpty()){
-                binding.senha.setError("Senha não pode estar vazia")
+            var pessoa = Pessoa(
+                nomeCompleto = binding.nome.text.toString().trim(),
+                cpf = binding.cpf.text.toString().trim(),
+                dataNascimento = binding.dataNascimento.text.toString().trim(), //LocalDate.of(1990, 5, 15), // Supondo que a data de nascimento seja 15/05/1990
+                telefone = binding.telefone.text.toString().trim(),
+                senha = binding.senha.text.toString().trim(),
+                authID = "",
+                ehGerente = false
+            )
+
+            if (pessoa.nomeCompleto.isEmpty() || !pessoa.isNomeValido()){
+                binding.nome.setError("Preencha com um nome válido")
+            } else if (pessoa.cpf.isEmpty() || !pessoa.isCpfValido()){
+                binding.cpf.setError("Preencha com um cpf válido")
+            } else if (pessoa.dataNascimento.isEmpty() || !pessoa.isDataNascimentoValida()) {
+                binding.dataNascimento.setError("Preencha com uma data válida")
+            } else if (pessoa.telefone.isEmpty() || !pessoa.isTelefoneValido()){
+                binding.telefone.setError("Preencha com um telefone válido")
+            } else if (pessoa.senha.isEmpty() || !pessoa.isSenhaValida()){
+                binding.senha.setError("Preencha com uma senha de pelo menos 6 digitos")
+            } else if (email.isEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                binding.email.setError("Preencha com um email válido")
+            } else if (senhaConf.isEmpty() || senhaConf != senha) {
+                binding.senhaConfirmacao.setError("Preencha a confimação igual a senha")
             } else {
                 auth.createUserWithEmailAndPassword(email, senha)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(ContentValues.TAG, "signInWithCustomToken:success")
-                            //var uidAuth =  task.result.user?.uid.toString()
+                            pessoa.authID =  task.result.user?.uid.toString()
+
+                            addPessoa(pessoa)
+
                             val iLogin = Intent(this, MainActivity::class.java)
                             startActivity(iLogin)
                         } else {
-                            binding.cadastroButton.setText("deu ruim")
+                            Toast.makeText(this, "Cadaastro falhou",
+                                Toast.LENGTH_SHORT).show()
                         }
                     }
             }
@@ -65,24 +96,28 @@ class CadastroActivity : AppCompatActivity() {
         })
     }
 
-    fun addSamplePerson(){
-        // Crie os dados para enviar para sua função. Isso pode ser um Map ou um objeto personalizado.
-        val data = hashMapOf(
-            "key" to "value"
+    fun addPessoa(pessoa: Pessoa){
+        lateinit var firebase: FirebaseFirestore;
+        firebase = FirebaseFirestore.getInstance()
+
+        // Criando um objeto pessoa com os dados do usuario
+        val hmPessoa = hashMapOf(
+            "authID" to pessoa.authID,
+            "cpf" to pessoa.cpf,
+            "dataNascimento" to pessoa.dataNascimento,
+            "nome" to pessoa.nomeCompleto,
+            "telefone" to pessoa.telefone,
+            "ehGerente" to pessoa.ehGerente,
         )
 
-
-        // Chame sua função do Firebase pelo nome. Substitua "yourFunctionName" pelo nome da sua função.
-        functions
-            .getHttpsCallableFromUrl(URL("https://southamerica-east1-pi3-es-2024-t10.cloudfunctions.net/addSamplePerson"))
-            .call()
-            .addOnSuccessListener { result ->
-                // Trate o sucesso da chamada aqui. `result.data` contém a resposta da sua função.
-                println("Function result: ${result.data}")
+        // Adicionando a pessoa no firestore
+        firebase.collection("pessoa")
+            .add(hmPessoa)
+            .addOnSuccessListener { documentReference ->
+                Log.d("CadastroPessoa", "Pessoa adicionado com ID: ${documentReference.id}")
             }
             .addOnFailureListener { e ->
-                // Trate o erro aqui.
-                e.printStackTrace()
+                Log.w("Erro", "Erro ao adicionar pessoa", e)
             }
     }
 }

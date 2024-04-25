@@ -1,10 +1,14 @@
 package br.edu.puccampinas.safepack.model
 
+import com.google.type.DateTime
+
 class Pessoa (var nomeCompleto: String,
               var cpf: String,
-              var dataNascimento: String,
+              var dataNascimento: String,//DateTime,
               var telefone:String,
-              var senha: String) {
+              var senha: String,
+              var authID: String,
+              var ehGerente: Boolean) {
 
     public fun isNomeValido(): Boolean {
         val regex = Regex("^[^0-9@#$%^&+=]*\$")
@@ -12,7 +16,8 @@ class Pessoa (var nomeCompleto: String,
     }
 
     public fun isDataNascimentoValida(): Boolean {
-        return true
+        val regex = Regex("^\\d{2}/\\d{2}/\\d{4}\$")
+        return regex.matches(dataNascimento)
     }
 
     public fun isCpfValido(): Boolean {

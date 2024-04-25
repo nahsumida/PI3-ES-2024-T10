@@ -28,7 +28,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
 
-
+        <activity
+            android:name=".activity.RecuperarSenhaActivity"
+            android:exported="true" />
         <activity
             android:name=".activity.MapsNoLoginActivity"
             android:exported="true" />

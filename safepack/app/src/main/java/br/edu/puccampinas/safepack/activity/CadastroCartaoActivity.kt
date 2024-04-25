@@ -18,7 +18,6 @@ class CadastroCartaoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //if (email.isNotEmpty() && email.matches(Patterns
         binding = ActivityCadastroCartaoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -28,9 +27,10 @@ class CadastroCartaoActivity : AppCompatActivity() {
             validade = binding.validade.text.toString().trim();
             cvv = binding.cvv.text.toString().trim();
 
-            var idPessoa =  intent.getStringExtra("idPessoa") as String
+            //var idPessoa =  intent.getStringExtra("idPessoa") as String
 
             addCartaoCredito("SgR0f9S3EuLjRJmduhaw", numCartao, validade,nomeTitular)
+
         })
 
         binding.arrow.setOnClickListener {
