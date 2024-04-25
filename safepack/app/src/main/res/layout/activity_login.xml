@@ -71,7 +71,6 @@
         android:textColor="@color/black"
         android:fontFamily="@font/montserratlight"
         app:layout_constraintTop_toBottomOf="@id/senha"
-
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button

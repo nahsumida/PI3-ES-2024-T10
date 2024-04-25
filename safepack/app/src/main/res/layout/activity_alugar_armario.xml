@@ -58,35 +58,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="30 minutos  -  R$"
-            android:fontFamily="@font/montserratmedium"/>
+            android:fontFamily="@font/montserratmedium"
+            android:textColor="@color/black"/>
 
         <RadioButton
             android:id="@+id/radioButton2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1 hora  -  R$"
-            android:fontFamily="@font/montserratmedium" />
+            android:fontFamily="@font/montserratmedium"
+            android:textColor="@color/black"/>
 
         <RadioButton
             android:id="@+id/radioButton3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2 horas  -  R$"
-            android:fontFamily="@font/montserratmedium"/>
+            android:fontFamily="@font/montserratmedium"
+            android:textColor="@color/black"/>
 
         <RadioButton
             android:id="@+id/radioButton4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="4 horas  -  R$"
-            android:fontFamily="@font/montserratmedium"/>
+            android:fontFamily="@font/montserratmedium"
+            android:textColor="@color/black"/>
 
         <RadioButton
             android:id="@+id/radioButton5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="6 horas  -  R$"
-            android:fontFamily="@font/montserratmedium"/>
+            android:fontFamily="@font/montserratmedium"
+            android:textColor="@color/black"/>
 
         <RadioButton
             android:id="@+id/radioButton6"
@@ -94,7 +99,8 @@
             android:layout_height="wrap_content"
             android:text="até as 18:00  -  R$"
             android:visibility="visible"
-            android:fontFamily="@font/montserratmedium"/> <!-- Defina a visibilidade como "gone" por padrão -->
+            android:fontFamily="@font/montserratmedium"
+            android:textColor="@color/black"/> <!-- Defina a visibilidade como "gone" por padrão -->
     </RadioGroup>
 
     <Button
