@@ -6,31 +6,37 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.safepack.databinding.ActivityCadastroCartaoBinding
+import br.edu.puccampinas.safepack.models.Cartao
+import br.edu.puccampinas.safepack.repositories.LocacaoRepository
+import br.edu.puccampinas.safepack.repositories.PessoaRepository
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class CadastroCartaoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCadastroCartaoBinding
-    lateinit var numCartao:String;
-    lateinit var nomeTitular:String;
-    lateinit var validade:String;
-    lateinit var cvv:String;
+    private lateinit var auth: FirebaseAuth
+    private lateinit var pessoaRepository: PessoaRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        auth = FirebaseAuth.getInstance()
+        pessoaRepository = PessoaRepository()
 
         binding = ActivityCadastroCartaoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.habilitarCartaoButton.setOnClickListener(View.OnClickListener {
-            numCartao = binding.numCartao.text.toString().trim();
-            nomeTitular = binding.nomeTitular.text.toString().trim();
-            validade = binding.validade.text.toString().trim();
-            cvv = binding.cvv.text.toString().trim();
+            var cartao = Cartao(
+                nomeTitular =  binding.nomeTitular.text.toString().trim(),
+                 dataValidade =  binding.validade.text.toString().trim(),
+                 CVV = binding.cvv.text.toString().trim(),
+                 numCartao = binding.numCartao.text.toString().trim()
+            )
 
-            //var idPessoa =  intent.getStringExtra("idPessoa") as String
-
-            addCartaoCredito("SgR0f9S3EuLjRJmduhaw", numCartao, validade,nomeTitular)
-
+            getPessoaID(auth, pessoaRepository, cartao)
+            val iMaps = Intent(this, MapsActivity::class.java)
+            startActivity(iMaps)
         })
 
         binding.arrow.setOnClickListener {
@@ -40,16 +46,30 @@ class CadastroCartaoActivity : AppCompatActivity() {
     }
 
     //esse funciona
-    fun addCartaoCredito(idPessoa: String,numCartao: String, validade: String, nome: String){
+
+    fun getPessoaID(auth: FirebaseAuth,
+                    pessoaR: PessoaRepository,
+                    cartao: Cartao) {
+
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            pessoaR.getIdByAuthId(currentUser.uid) { idUser ->
+                if (idUser != "null") {
+                    addCartaoCredito(idUser, cartao)
+                }
+            }
+        }
+    }
+
+    fun addCartaoCredito(idPessoa: String, cartao: Cartao){
         lateinit var firebase: FirebaseFirestore;
         firebase = FirebaseFirestore.getInstance()
 
         // Criando um objeto cartao com os dados do cartão e uma referência para o documento da pessoa
         val cartao = hashMapOf(
-           // "pessoa" to firebase.collection("pessoa").document(idPessoa),
-            "dataValidade" to validade,
-            "nome" to nome,
-            "numero" to numCartao
+            "dataValidade" to cartao.dataValidade,
+            "nome" to cartao.nomeTitular,
+            "numero" to cartao.numCartao
         )
 
         // Adicionando o cartão à subcoleção "cartao" de coleção "pessoa"

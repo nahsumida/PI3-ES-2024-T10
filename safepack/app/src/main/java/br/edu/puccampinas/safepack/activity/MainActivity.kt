@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.safepack.databinding.ActivityLoginBinding
 import br.edu.puccampinas.safepack.databinding.ActivityMapsBinding
+import br.edu.puccampinas.safepack.repositories.LocacaoRepository
+import br.edu.puccampinas.safepack.repositories.PessoaRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,11 +18,9 @@ import com.google.firebase.firestore.QuerySnapshot
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-
     private lateinit var auth: FirebaseAuth;
-    var email: String ="";
-    var senha: String = "";
-    var authID: String? = null;
+    lateinit var email: String;
+    lateinit var senha: String;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +44,8 @@ class MainActivity : AppCompatActivity() {
                     auth.signInWithEmailAndPassword(email, senha)
                         .addOnCompleteListener{task ->
                             if (task.isSuccessful){
-                                authID = task.result.user?.uid.toString()
-                                //binding.loginButton.setText(authID)
-                                //Toast.makeText(this, "Login sucesso",
-                                    //Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, "Login sucesso",
+                                    Toast.LENGTH_SHORT).show()
                                 val iMaps = Intent(this, MapsActivity::class.java)
                                 startActivity(iMaps)
 
@@ -80,27 +78,5 @@ class MainActivity : AppCompatActivity() {
             val iRecuperarSenha = Intent(this, RecuperarSenhaActivity::class.java)
             startActivity(iRecuperarSenha)
         }
-    }
-
-    fun getPessoaByAuthID(authID: String) : String{
-        var idPessoa:String = "";
-        val db = FirebaseFirestore.getInstance()
-        db.collection("pessoa")
-            .whereEqualTo("authID", authID)
-            .get()
-            .addOnSuccessListener { result: QuerySnapshot ->
-                for (document: DocumentSnapshot in result) {
-                    Log.d("Documento", "${document.id} => ${document.data}")
-                    // Aqui você pode manipular cada documento encontrado
-                    idPessoa = document.id
-                }
-                if (result.isEmpty) {
-                    Log.d("Documento", "Nenhum documento encontrado com o authID: $authID")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.d("Erro", "Erro ao buscar documentos: ", exception)
-            }
-        return idPessoa
     }
 }

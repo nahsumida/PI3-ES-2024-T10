@@ -32,7 +32,7 @@ class RecuperarSenhaActivity : AppCompatActivity() {
         binding.enviarLinkButton.setOnClickListener {
             email = binding.emailCadastrado.text.toString().trim();
 
-            if (email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 binding.emailCadastrado.setError("Preencha com um email válido")
             } else {
                 auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
