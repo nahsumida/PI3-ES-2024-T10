@@ -30,6 +30,11 @@ class MainActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance();
 
+        if(auth.currentUser!=null) {
+            val iMaps = Intent(this, MapsActivity::class.java)
+            startActivity(iMaps)
+        }
+
         binding.loginButton.setOnClickListener(View.OnClickListener {
             email = binding.email.text.toString().trim();
             senha = binding.senha.text.toString().trim();
@@ -40,9 +45,9 @@ class MainActivity : AppCompatActivity() {
                         .addOnCompleteListener{task ->
                             if (task.isSuccessful){
                                 authID = task.result.user?.uid.toString()
-                                binding.loginButton.setText(authID)
-                                Toast.makeText(this, "Login sucesso",
-                                    Toast.LENGTH_SHORT).show()
+                                //binding.loginButton.setText(authID)
+                                //Toast.makeText(this, "Login sucesso",
+                                    //Toast.LENGTH_SHORT).show()
                                 val iMaps = Intent(this, MapsActivity::class.java)
                                 startActivity(iMaps)
 
@@ -51,10 +56,6 @@ class MainActivity : AppCompatActivity() {
                                     Toast.LENGTH_SHORT).show()
                             }
                         }
-                   /*if (authID != null){
-                        //val idPessoa = getPessoaByAuthID(authID.toString())
-                        //intent.putExtra("idPessoa", idPessoa);
-                    }*/
                 } else {
                     binding.senha.setError("Senha não pode ser vazia")
                 }
@@ -76,8 +77,8 @@ class MainActivity : AppCompatActivity() {
         })
 
         binding.esqueceuSenhaText.setOnClickListener {
-            val iAlterarSenha = Intent(this, AlterarSenhaActivity::class.java)
-            startActivity(iAlterarSenha)
+            val iRecuperarSenha = Intent(this, RecuperarSenhaActivity::class.java)
+            startActivity(iRecuperarSenha)
         }
     }
 

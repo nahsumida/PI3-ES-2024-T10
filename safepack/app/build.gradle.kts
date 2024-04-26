@@ -61,6 +61,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation ("com.google.zxing:core:3.4.1")
+    //implementation ("com.google.android.gms:play-services-maps:20.2.0")
+    implementation ("com.google.android.gms:play-services-location:21.2.0")
+
 
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))

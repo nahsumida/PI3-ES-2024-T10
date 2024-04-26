@@ -16,4 +16,18 @@ class UnidadeLocacaoRepository {
     fun getUnidadeById(idUnidade: String): Task<DocumentSnapshot> {
         return db.collection("unidadeLocacao").document(idUnidade).get()
     }
+
+    fun getArmariosDaUnidade(unidadeId: String): Task<QuerySnapshot> {
+        val armariosCollection = unidades.document(unidadeId).collection("armario")
+
+        return armariosCollection.get()
+    }
+
+    fun setStatusArmario(unidadeId: String, armarioId:String, status: String) {
+        val novoArmario: Map<String, String> = hashMapOf("status" to status)
+
+        val armario = unidades.document(unidadeId).collection("armario").document(armarioId)
+
+        armario.update(novoArmario)
+    }
 }
