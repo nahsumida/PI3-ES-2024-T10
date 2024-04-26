@@ -43,7 +43,7 @@
             android:digits="0123456789"
             android:inputType="number"
             android:hint="Número do cartão"
-            android:maxLength="12"
+            android:maxLength="16"
             android:drawableLeft="@drawable/baseline_credit_card_24"
             android:textColor="@color/black"
             android:drawablePadding="8dp"/>

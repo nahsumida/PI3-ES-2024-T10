@@ -3,6 +3,7 @@ package br.edu.puccampinas.safepack.activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.safepack.databinding.ActivityCadastroCartaoBinding
@@ -31,17 +32,28 @@ class CadastroCartaoActivity : AppCompatActivity() {
         // configurar clique do botão habilitar cartão
         binding.habilitarCartaoButton.setOnClickListener(View.OnClickListener {
 
-            // obter os dados do formulário
+            // criar objeto Cartao com os dados do formulário
             var cartao = Cartao(
                 nomeTitular =  binding.nomeTitular.text.toString().trim(),
-                 dataValidade =  binding.validade.text.toString().trim(),
-                 CVV = binding.cvv.text.toString().trim(),
-                 numCartao = binding.numCartao.text.toString().trim()
+                dataValidade =  binding.validade.text.toString().trim(),
+                CVV = binding.cvv.text.toString().trim(),
+                numCartao = binding.numCartao.text.toString().trim()
             )
 
-            getPessoaID(auth, pessoaRepository, cartao)
-            val iMaps = Intent(this, MapsActivity::class.java)
-            startActivity(iMaps)
+            // validar campos do formulário
+            if (cartao.nomeTitular.isEmpty() || !cartao.isNomeValido()){
+                binding.nomeTitular.setError("Preencha com um nome válido")
+            } else if (cartao.dataValidade.isEmpty() || !cartao.isDataValidadeValida()){
+                binding.validade.setError("Preencha com uma data de validade válida")
+            } else if (cartao.CVV.isEmpty() || !cartao.isCVVValido()) {
+                binding.cvv.setError("Preencha com um cvv válido")
+            } else if (cartao.numCartao.isEmpty() || !cartao.isNumCartaoValido()){
+                binding.numCartao.setError("Preencha com um número de cartão válido")
+            }  else {
+                getPessoaID(auth, pessoaRepository, cartao)
+                val iMaps = Intent(this, MapsActivity::class.java)
+                startActivity(iMaps)
+            }
         })
 
         // configurar o clique da seta para voltar a activity anterior

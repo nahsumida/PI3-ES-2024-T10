@@ -70,7 +70,6 @@ class CadastroActivity : AppCompatActivity() {
             } else if (senhaConf.isEmpty() || senhaConf != senha) {
                 binding.senhaConfirmacao.setError("Preencha a confimação igual a senha")
             } else {
-
                 // criar usuário com email e senha
                 auth.createUserWithEmailAndPassword(email, senha)
                     .addOnCompleteListener(this) { task ->
@@ -110,7 +109,7 @@ class CadastroActivity : AppCompatActivity() {
         lateinit var firebase: FirebaseFirestore;
         firebase = FirebaseFirestore.getInstance()
 
-        // Criando um objeto pessoa com os dados do usuario
+        // Criando um hash map pessoa com os dados do usuario
         val hmPessoa = hashMapOf(
             "authID" to pessoa.authID,
             "cpf" to pessoa.cpf,
