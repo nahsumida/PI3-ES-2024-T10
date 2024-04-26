@@ -107,9 +107,9 @@ class AlugarArmarioActivity : AppCompatActivity() {
                 binding.radioButton3.text = stringPreco(binding.radioButton3.text.toString(),
                     calcularValor(2.0,unidade.getDouble("valorHora")))
                 binding.radioButton4.text = stringPreco(binding.radioButton4.text.toString(),
-                    calcularValor(3.0,unidade.getDouble("valorHora")))
-                binding.radioButton5.text = stringPreco(binding.radioButton5.text.toString(),
                     calcularValor(4.0,unidade.getDouble("valorHora")))
+                binding.radioButton5.text = stringPreco(binding.radioButton5.text.toString(),
+                    calcularValor(6.0,unidade.getDouble("valorHora")))
                 binding.radioButton6.text = stringPreco(binding.radioButton6.text.toString(),
                     calcularValor(5.0,unidade.getDouble("valorHora")))
             }
