@@ -63,9 +63,6 @@
             android:name=".activity.CadastroCartaoActivity"
             android:exported="true" />
         <activity
-            android:name=".activity.AlterarSenhaActivity"
-            android:exported="true" />
-        <activity
             android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>

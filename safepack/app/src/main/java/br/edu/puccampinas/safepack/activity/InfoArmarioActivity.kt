@@ -17,24 +17,28 @@ class InfoArmarioActivity : AppCompatActivity()  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // inflar layout activity
         binding = ActivityInfoArmarioBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // inicializar instancia do UnidadeRepository
         unidadeLocacaoRepository = UnidadeLocacaoRepository()
 
+        // obter dados passados pela intent
         val idUnidade = intent.getStringExtra("idUnidade")
-
         val latUser = intent.getStringExtra("latitude")?.toDouble()
         val longUser = intent.getStringExtra("longitude")?.toDouble()
         val statusLogin = intent.getStringExtra("statusLogin")
+        val activityAnterior = intent.getStringExtra("activityAnterior")
 
+        // verificar se os dados de localização do usuário passados e exibindo-os no log
         if(latUser != null && longUser != null) Log.d("Localização",
             "Sua loc: $latUser, $longUser")
 
+        // apresentar as informações do armário
         if (idUnidade != null) apresentarInfoArmario(idUnidade, unidadeLocacaoRepository)
 
-        val activityAnterior = intent.getStringExtra("activityAnterior")
-
+        // configurar clique do botão de alugar armário
         binding.alugarArmarioButton.setOnClickListener {
             if(latUser != null && longUser != null && idUnidade != null) {
                 verificarProximidade(latUser, longUser, idUnidade, unidadeLocacaoRepository) {result ->
@@ -53,6 +57,7 @@ class InfoArmarioActivity : AppCompatActivity()  {
             }
         }
 
+        // configurar clique da seta para voltar para a activity anterior
         binding.arrow.setOnClickListener {
             if(activityAnterior.equals("Maps")) {
                 val iMaps = Intent(this, MapsActivity::class.java)
@@ -69,6 +74,7 @@ class InfoArmarioActivity : AppCompatActivity()  {
             }
         }
 
+        // configurar clique do botão de ir ao local
         binding.irAoLocalButton.setOnClickListener {
             if(idUnidade != null) {
                 unidadeLatLng(idUnidade, unidadeLocacaoRepository) {latLng ->
@@ -93,6 +99,7 @@ class InfoArmarioActivity : AppCompatActivity()  {
         }
     }
 
+    // método para obter a latitude e longitude da unidade de locação
     private fun unidadeLatLng(idUnidade: String,
                               unidadeR: UnidadeLocacaoRepository,
                               callback: (LatLng) -> Unit) {
@@ -105,6 +112,7 @@ class InfoArmarioActivity : AppCompatActivity()  {
         }
     }
 
+    // método para apresentar as informações do armário na interface
     private fun apresentarInfoArmario(id: String, unidadeR: UnidadeLocacaoRepository) {
         unidadeR.getUnidadeById(id)
             .addOnSuccessListener { unidade ->
@@ -125,6 +133,7 @@ class InfoArmarioActivity : AppCompatActivity()  {
             }
     }
 
+    // método para verificar se o usuário está próximo o suficiente da unidade para alugar o armario
     private fun verificarProximidade(latUser: Double,
                                      longUser: Double,
                                      idUnidade: String,
@@ -137,7 +146,7 @@ class InfoArmarioActivity : AppCompatActivity()  {
                     val latLngUnidade = LatLng(geoPoint.latitude, geoPoint.longitude)
                     val latLngUser = LatLng(latUser, longUser)
                     val distancia = calcularDistancia(latLngUnidade, latLngUser)
-                    val distanciaMaxima = 50
+                    val distanciaMaxima = 50 // distancia máxima permitida em metros
                     val result = distancia <= distanciaMaxima
                     callback(result)
                 } else {
@@ -146,6 +155,7 @@ class InfoArmarioActivity : AppCompatActivity()  {
             }
     }
 
+    // método para calcular a distância entre duas coodenadas
     private fun calcularDistancia(unidade: LatLng, user: LatLng): Double {
         val results = FloatArray(1)
         android.location.Location.distanceBetween(

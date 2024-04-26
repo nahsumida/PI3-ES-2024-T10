@@ -1,17 +1,13 @@
 package br.edu.puccampinas.safepack.activity
 
 import android.Manifest
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.icu.util.TimeUnit
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.RadioButton
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -50,32 +46,38 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // inflar o layout da activity
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         mapsButton = findViewById(R.id.mapsButton)
 
+        // instanciar o FirebaseAuth e os repositorios
         auth = FirebaseAuth.getInstance()
-
         unidadeLocacaoRepository = UnidadeLocacaoRepository()
         locacaoRepository = LocacaoRepository()
         pessoaRepository = PessoaRepository()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+        // configurar clique no botão de cadastrar cartão
         mapsButton.setOnClickListener {
             val iCreditCard = Intent(this, CadastroCartaoActivity::class.java)
             startActivity(iCreditCard)
         }
 
+        // configurar clique no botão de sair
         binding.sairButton.setOnClickListener {
             sair()
         }
 
+        // chamar função que verifica se o botão precisa aparecer ou não
         retirarBotaoCartao()
     }
 
     override fun onStart() {
         super.onStart()
+
+        // verificar e solicitar permissão de localização
         if(ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -92,10 +94,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
     override fun onResume() {
         super.onResume()
 
+        // obter a localização do usuário
         obterLocalizacao {  }
 
+        // verificar se existe uma reserva pendente
         val alertDialog = intent.getStringExtra("alertDialog")
-
         if(alertDialog == null) {
             verificarStatusLocacao(auth, locacaoRepository, pessoaRepository) {status ->
                 if(status) {
@@ -120,12 +123,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
         }
     }
 
+    // método para inicializar o mapa na activity
     private fun initMap() {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 
+    // método para configurar o mapa
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 

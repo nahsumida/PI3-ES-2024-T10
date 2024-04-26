@@ -23,23 +23,25 @@ class ArmarioLiberadoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // inflar o layout da activity
         binding = ActivityArmarioLiberadoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val alertDialog = intent.getStringExtra("alertDialog")
-
+        // inicializar as instâncias do firebase auth e dos repositorios
         auth = FirebaseAuth.getInstance()
         pessoaRepository = PessoaRepository()
         locacaoRepository = LocacaoRepository()
 
+        // configurar clique do botão "voltar ao menu"
         binding.voltarMenuButton.setOnClickListener {
             alterarStatusLocacao(auth, "ativa", locacaoRepository, pessoaRepository)
             val iMaps = Intent(this, MapsActivity::class.java)
-            if(alertDialog != null) iMaps.putExtra("alertDialog", alertDialog)
+            iMaps.putExtra("alertDialog", "1")
             startActivity(iMaps)
         }
     }
 
+    // método para alterar o status da locação
     private fun alterarStatusLocacao(auth: FirebaseAuth,
                                      status: String,
                                      locacaoR: LocacaoRepository,

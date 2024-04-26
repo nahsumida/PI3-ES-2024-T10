@@ -25,32 +25,45 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // inflar layout da activity
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // inicializar a instancia do FirebaseAuth
         auth = FirebaseAuth.getInstance();
 
-        if(auth.currentUser!=null) {
+        // verificar se o usuário está logado e se é o primeiro login
+        val primeiroLogin = intent.getStringExtra("primeiroLogin")
+        if(auth.currentUser != null && primeiroLogin == null) {
             val iMaps = Intent(this, MapsActivity::class.java)
             startActivity(iMaps)
         }
 
+        // configurar o clique do botão de login
         binding.loginButton.setOnClickListener(View.OnClickListener {
+
+            // obter valores dos campos email e senha
             email = binding.email.text.toString().trim();
             senha = binding.senha.text.toString().trim();
-            //if (email.isNotEmpty() && email.matches(Patterns.EMAIL_ADDRESS.toRegex())){
+
+            // verifica se o email é válido
             if (email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                // verifica se a senha não está vazia
                 if (senha.isNotEmpty()){
+                    // realiza o login do usuário com email e senha
                     auth.signInWithEmailAndPassword(email, senha)
                         .addOnCompleteListener{task ->
                             if (task.isSuccessful){
-                                Toast.makeText(this, "Login sucesso",
-                                    Toast.LENGTH_SHORT).show()
-                                val iMaps = Intent(this, MapsActivity::class.java)
-                                startActivity(iMaps)
-
+                                // verifica se o email foi verificado
+                                if(auth.currentUser?.isEmailVerified == true) {
+                                    val iMaps = Intent(this, MapsActivity::class.java)
+                                    startActivity(iMaps)
+                                } else {
+                                    Toast.makeText(this, "Verifique o email cadastrado",
+                                        Toast.LENGTH_SHORT).show()
+                                }
                             } else {
-                                Toast.makeText(this, "Login falhou",
+                                Toast.makeText(this, "Email ou senha incorretos",
                                     Toast.LENGTH_SHORT).show()
                             }
                         }
@@ -64,16 +77,19 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        // configurar clique do texto de cadastro
         binding.fazerCadastroText.setOnClickListener(View.OnClickListener {
             val iCreateAccount = Intent(this, CadastroActivity::class.java)
             startActivity(iCreateAccount)
         })
 
+        // configura o clique do botão de ver o mapa
         binding.verMapaButton.setOnClickListener(View.OnClickListener {
             val iMaps = Intent(this, MapsNoLoginActivity::class.java)
             startActivity(iMaps)
         })
 
+        // configura o clique no texto "Esqueceu a senha?"
         binding.esqueceuSenhaText.setOnClickListener {
             val iRecuperarSenha = Intent(this, RecuperarSenhaActivity::class.java)
             startActivity(iRecuperarSenha)

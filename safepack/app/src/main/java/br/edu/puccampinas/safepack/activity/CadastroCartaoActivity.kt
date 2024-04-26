@@ -20,13 +20,18 @@ class CadastroCartaoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        auth = FirebaseAuth.getInstance()
-        pessoaRepository = PessoaRepository()
-
+        // inflar o layout da activity
         binding = ActivityCadastroCartaoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // inicializar as instancias do FirebaseAuth e PessoaRepository
+        auth = FirebaseAuth.getInstance()
+        pessoaRepository = PessoaRepository()
+
+        // configurar clique do botão habilitar cartão
         binding.habilitarCartaoButton.setOnClickListener(View.OnClickListener {
+
+            // obter os dados do formulário
             var cartao = Cartao(
                 nomeTitular =  binding.nomeTitular.text.toString().trim(),
                  dataValidade =  binding.validade.text.toString().trim(),
@@ -39,14 +44,14 @@ class CadastroCartaoActivity : AppCompatActivity() {
             startActivity(iMaps)
         })
 
+        // configurar o clique da seta para voltar a activity anterior
         binding.arrow.setOnClickListener {
             val iMaps = Intent(this, MapsActivity::class.java)
             startActivity(iMaps)
         }
     }
 
-    //esse funciona
-
+    // método para obter o ID da pessoa e adicionar o cartão
     fun getPessoaID(auth: FirebaseAuth,
                     pessoaR: PessoaRepository,
                     cartao: Cartao) {
@@ -61,6 +66,7 @@ class CadastroCartaoActivity : AppCompatActivity() {
         }
     }
 
+    // método para adicionar o cartão de crédito ao firestore
     fun addCartaoCredito(idPessoa: String, cartao: Cartao){
         lateinit var firebase: FirebaseFirestore;
         firebase = FirebaseFirestore.getInstance()

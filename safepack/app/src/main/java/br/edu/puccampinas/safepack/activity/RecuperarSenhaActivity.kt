@@ -55,6 +55,7 @@ class RecuperarSenhaActivity : AppCompatActivity() {
                 }
             }
             val iLoginActivity = Intent(this, MainActivity::class.java)
+            iLoginActivity.putExtra("primeiroLogin", "true")
             startActivity(iLoginActivity)
         }
 

@@ -27,16 +27,23 @@ class CadastroActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // inflar layout da activity
         binding = ActivityCadastroBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // inicializar as instancias do firebase auth e functions
         auth = FirebaseAuth.getInstance();
         functions = FirebaseFunctions.getInstance();
 
+        // configurar clique do botão de cadastro
         binding.cadastroButton.setOnClickListener(View.OnClickListener {
+
+            // obter dados do formulário
             email = binding.email.text.toString().trim();
             senha = binding.senha.text.toString().trim();
             senhaConf = binding.senhaConfirmacao.text.toString().trim();
 
+            // criar objeto Pessoa com os dados do formulário
             var pessoa = Pessoa(
                 nomeCompleto = binding.nome.text.toString().trim(),
                 cpf = binding.cpf.text.toString().trim(),
@@ -47,6 +54,7 @@ class CadastroActivity : AppCompatActivity() {
                 ehGerente = false
             )
 
+            // validar campos do formulário
             if (pessoa.nomeCompleto.isEmpty() || !pessoa.isNomeValido()){
                 binding.nome.setError("Preencha com um nome válido")
             } else if (pessoa.cpf.isEmpty() || !pessoa.isCpfValido()){
@@ -62,16 +70,25 @@ class CadastroActivity : AppCompatActivity() {
             } else if (senhaConf.isEmpty() || senhaConf != senha) {
                 binding.senhaConfirmacao.setError("Preencha a confimação igual a senha")
             } else {
+
+                // criar usuário com email e senha
                 auth.createUserWithEmailAndPassword(email, senha)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
                             Log.d(ContentValues.TAG, "signInWithCustomToken:success")
                             pessoa.authID =  task.result.user?.uid.toString()
 
+                            // adicionar pessoa ao firestore
                             addPessoa(pessoa)
 
+                            // enviar email de verificação para o usuário
+                            auth.currentUser?.sendEmailVerification()
+
+                            // deslogar o usuário
+                            auth.signOut()
+
                             val iLogin = Intent(this, MainActivity::class.java)
+                            iLogin.putExtra("primeiroLogin", "true")
                             startActivity(iLogin)
                         } else {
                             Toast.makeText(this, "Cadaastro falhou",
@@ -81,17 +98,14 @@ class CadastroActivity : AppCompatActivity() {
             }
         })
 
+        // configurar o clique da seta para voltar para a activity anterior
         binding.arrow.setOnClickListener(View.OnClickListener {
             val iLogin = Intent(this, MainActivity::class.java)
             startActivity(iLogin)
         })
-
-        binding.voltar.setOnClickListener(View.OnClickListener {
-            val iVoltar = Intent(this, MainActivity::class.java)
-            startActivity(iVoltar)
-        })
     }
 
+    // método para adicionar uma pessoa ao firestore
     fun addPessoa(pessoa: Pessoa){
         lateinit var firebase: FirebaseFirestore;
         firebase = FirebaseFirestore.getInstance()
