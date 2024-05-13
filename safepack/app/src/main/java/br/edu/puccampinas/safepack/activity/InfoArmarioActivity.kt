@@ -146,7 +146,7 @@ class InfoArmarioActivity : AppCompatActivity()  {
                     val latLngUnidade = LatLng(geoPoint.latitude, geoPoint.longitude)
                     val latLngUser = LatLng(latUser, longUser)
                     val distancia = calcularDistancia(latLngUnidade, latLngUser)
-                    val distanciaMaxima = 50 // distancia máxima permitida em metros
+                    val distanciaMaxima = 500 // distancia máxima permitida em metros
                     val result = distancia <= distanciaMaxima
                     callback(result)
                 } else {

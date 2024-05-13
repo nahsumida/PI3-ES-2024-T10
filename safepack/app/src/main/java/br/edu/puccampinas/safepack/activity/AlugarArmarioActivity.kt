@@ -130,11 +130,36 @@ class AlugarArmarioActivity : AppCompatActivity() {
         val cal = Calendar.getInstance()
         val horaAtual = cal.get(Calendar.HOUR_OF_DAY)
 
-        // exibir o radio button entre 7h e 8h
-        if(horaAtual in 7..8) {
-            binding.radioButton6.visibility = View.VISIBLE
+        if (horaAtual in 7 .. 18) {
+            if (horaAtual > 8) {
+                binding.radioButton6.visibility = View.GONE
+
+                if (horaAtual > 12) {
+                    binding.radioButton5.visibility = View.GONE
+
+                    if (horaAtual > 14) {
+                        binding.radioButton4.visibility = View.GONE
+
+                        if (horaAtual > 16) {
+                            binding.radioButton3.visibility = View.GONE
+
+                            if(horaAtual > 17) {
+                                binding.radioButton2.visibility = View.GONE
+                            }
+                        }
+                    }
+                }
+            }
         } else {
+            binding.radioButton1.visibility = View.GONE
+            binding.radioButton2.visibility = View.GONE
+            binding.radioButton3.visibility = View.GONE
+            binding.radioButton4.visibility = View.GONE
+            binding.radioButton5.visibility = View.GONE
             binding.radioButton6.visibility = View.GONE
+            binding.confirmarLocacaoButton.visibility = View.GONE
+
+            binding.tvNoOptions.visibility = View.VISIBLE
         }
     }
 
