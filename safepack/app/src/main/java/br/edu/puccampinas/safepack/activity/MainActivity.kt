@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth;
     lateinit var email: String;
     lateinit var senha: String;
+    lateinit var pessoaRepository: PessoaRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,14 +30,23 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // inicializar a instancia do FirebaseAuth
+        // inicializar a instancia do FirebaseAuth e PessoaRepository
         auth = FirebaseAuth.getInstance();
+        pessoaRepository = PessoaRepository()
 
         // verificar se o usuário está logado e se é o primeiro login
         val primeiroLogin = intent.getStringExtra("primeiroLogin")
         if(auth.currentUser != null && primeiroLogin == null) {
-            val iMaps = Intent(this, MapsActivity::class.java)
-            startActivity(iMaps)
+            isGerente(auth, pessoaRepository) { result ->
+                Log.d("isGerente", result.toString())
+                if (result) {
+                    val iGerente = Intent(this, TelaInicialGerenteActivity::class.java)
+                    startActivity(iGerente)
+                } else {
+                    val iMaps = Intent(this, MapsActivity::class.java)
+                    startActivity(iMaps)
+                }
+            }
         }
 
         // configurar o clique do botão de login
@@ -54,13 +64,23 @@ class MainActivity : AppCompatActivity() {
                     auth.signInWithEmailAndPassword(email, senha)
                         .addOnCompleteListener{task ->
                             if (task.isSuccessful){
-                                // verifica se o email foi verificado
-                                if(auth.currentUser?.isEmailVerified == true) {
-                                    val iMaps = Intent(this, MapsActivity::class.java)
-                                    startActivity(iMaps)
-                                } else {
-                                    Toast.makeText(this, "Verifique o email cadastrado",
-                                        Toast.LENGTH_SHORT).show()
+                                // verifica se é gerente ou cliente
+                                isGerente(auth, pessoaRepository) {result ->
+                                    Log.d("isGerente", result.toString())
+                                    if(result) {
+                                        val iGerente = Intent(this, TelaInicialGerenteActivity::class.java)
+                                        startActivity(iGerente)
+                                    } else {
+                                        // verifica se o email foi verificado
+                                        if(auth.currentUser?.isEmailVerified == true) {
+                                            val iMaps = Intent(this, MapsActivity::class.java)
+                                            startActivity(iMaps)
+                                        } else {
+                                            auth.signOut()
+                                            Toast.makeText(this, "Verifique o email cadastrado",
+                                                Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
                                 }
                             } else {
                                 Toast.makeText(this, "Email ou senha incorretos",
@@ -93,6 +113,26 @@ class MainActivity : AppCompatActivity() {
         binding.esqueceuSenhaText.setOnClickListener {
             val iRecuperarSenha = Intent(this, RecuperarSenhaActivity::class.java)
             startActivity(iRecuperarSenha)
+        }
+    }
+
+    private fun isGerente(auth: FirebaseAuth,
+                  pessoaR: PessoaRepository,
+                  callback: (Boolean) -> Unit) {
+        val currentUser = auth.currentUser
+
+        if(currentUser != null) {
+            pessoaR.getIdByAuthId(currentUser.uid) {idUser ->
+                if(idUser != "null") {
+                    pessoaR.getPessoaById(idUser).addOnSuccessListener {pessoa ->
+                        if(pessoa.getBoolean("ehGerente") == true) {
+                            callback(true)
+                        } else {
+                            callback(false)
+                        }
+                    }
+                }
+            }
         }
     }
 }
