@@ -37,16 +37,16 @@
             android:fontFamily="@font/montserratbold"/>
 
         <EditText
+            android:id="@+id/nome"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:id="@+id/nome"
             android:layout_marginTop="20dp"
-            android:padding="8dp"
-            android:maxLength="50"
-            android:hint="Nome completo"
             android:drawableLeft="@drawable/outline_person_24"
-            android:textColor="@color/black"
-            android:drawablePadding="8dp"/>
+            android:drawablePadding="8dp"
+            android:hint="Nome completo"
+            android:maxLength="50"
+            android:padding="8dp"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/cpf"

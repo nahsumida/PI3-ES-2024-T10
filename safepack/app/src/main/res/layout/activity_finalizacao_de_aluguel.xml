@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#373599"
+    android:orientation="vertical"
+    tools:context=".activity.FinalizacaoDeAluguelActivity">
+
+    <Button
+        android:id="@+id/sairButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="285dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginRight="20dp"
+        android:backgroundTint="@color/lavander"
+        android:text="Sair"
+        app:cornerRadius="15dp"
+        android:fontFamily="@font/montserratsemibold"
+        android:textAllCaps="false"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="20dp">
+
+        <TextView
+            android:id="@+id/aluguelDoArmarioGerenteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Aluguel do armário"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/montserratbold"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_check_box_24"
+            android:visibility="visible"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_check_box_24"
+            android:text="Pulseira 1 cadastrada"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_marginTop="60sp"
+            android:layout_marginBottom="20sp"
+            android:fontFamily="@font/montserratbold"
+            android:visibility="visible"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_check_box_24"
+            android:visibility="visible"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_check_box_24"
+            android:text="Pulseira 2 cadastrada"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_marginVertical="20sp"
+            android:fontFamily="@font/montserratbold"
+            android:visibility="visible"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Finalizar aluguel"
+            android:id="@+id/finalizarAluguelButton"
+            android:textSize="18sp"
+            android:layout_marginTop="80dp"
+            android:backgroundTint="@color/lavander"
+            app:cornerRadius = "15dp"
+            android:fontFamily="@font/montserratsemibold"
+            android:textAllCaps="false"/>
+
+    </LinearLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
