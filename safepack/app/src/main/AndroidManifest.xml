@@ -21,7 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Safepack"
         tools:targetApi="31">
-
+        <activity
+            android:name=".activity.CadastroNfcActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.FotoClienteActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.QrCodeLeituraActivity"
             android:exported="false" />

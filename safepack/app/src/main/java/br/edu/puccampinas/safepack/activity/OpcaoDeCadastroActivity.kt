@@ -18,9 +18,27 @@ class OpcaoDeCadastroActivity : AppCompatActivity() {
         binding = ActivityOpcaoDeCadastroBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val idLocacao = intent.getStringExtra("idLocacao")
+
         binding.arrow.setOnClickListener {
             val iQrCodeScan = Intent(this, QrCodeLeituraActivity::class.java)
             startActivity(iQrCodeScan)
+        }
+
+        binding.umaPessoaButton.setOnClickListener {
+            val iFotoCliente = Intent(this, FotoClienteActivity::class.java)
+            iFotoCliente.putExtra("idLocacao", idLocacao)
+            iFotoCliente.putExtra("qtdClientes", "1")
+            iFotoCliente.putExtra("clienteAtual", "1")
+            startActivity(iFotoCliente)
+        }
+
+        binding.duasPessoasButton.setOnClickListener {
+            val iFotoCliente = Intent(this, FotoClienteActivity::class.java)
+            iFotoCliente.putExtra("idLocacao", idLocacao)
+            iFotoCliente.putExtra("qtdClientes", "2")
+            iFotoCliente.putExtra("clienteAtual", "1")
+            startActivity(iFotoCliente)
         }
     }
 }

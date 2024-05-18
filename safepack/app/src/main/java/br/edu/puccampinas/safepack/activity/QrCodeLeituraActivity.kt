@@ -101,7 +101,7 @@ class QrCodeLeituraActivity : AppCompatActivity() {
                 qrCodeAnalyzer.resetProcessingFlag()
                 if(locacao.exists()) {
                     val iOpcaoCadastro = Intent(this, OpcaoDeCadastroActivity::class.java)
-                    iOpcaoCadastro.putExtra("QrCode", qrCode)
+                    iOpcaoCadastro.putExtra("idLocacao", qrCode)
                     startActivity(iOpcaoCadastro)
                 } else {
                     Toast.makeText(
