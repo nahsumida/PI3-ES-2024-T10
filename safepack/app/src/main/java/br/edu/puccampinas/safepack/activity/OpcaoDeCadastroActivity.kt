@@ -1,5 +1,6 @@
 package br.edu.puccampinas.safepack.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -16,5 +17,10 @@ class OpcaoDeCadastroActivity : AppCompatActivity() {
 
         binding = ActivityOpcaoDeCadastroBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.arrow.setOnClickListener {
+            val iQrCodeScan = Intent(this, QrCodeLeituraActivity::class.java)
+            startActivity(iQrCodeScan)
+        }
     }
 }

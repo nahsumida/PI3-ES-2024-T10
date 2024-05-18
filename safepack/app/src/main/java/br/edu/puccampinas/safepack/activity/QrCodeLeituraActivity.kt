@@ -43,8 +43,9 @@ class QrCodeLeituraActivity : AppCompatActivity() {
         locacaoRepository = LocacaoRepository()
 
         qrCodeAnalyzer = QrCodeAnalyzer { qrCode ->
-            Log.d("QrCodeScanner", "QR Code detected: $qrCode")
-            checkQRCodeInFirestore(qrCode)
+            runOnUiThread {
+                checkQRCodeInFirestore(qrCode)
+            }
         }
 
         startCamera()
@@ -121,9 +122,11 @@ private class QrCodeAnalyzer(private val onQRCodeScanned: (String) -> Unit) : Im
         setHints(mapOf(DecodeHintType.POSSIBLE_FORMATS to arrayListOf(BarcodeFormat.QR_CODE)))
     }
     private var isProcessing = false
+    private var lastScannedTime = 0L
 
     @OptIn(ExperimentalGetImage::class) override fun analyze(image: ImageProxy) {
-        if(isProcessing) {
+        val currentTime = System.currentTimeMillis()
+        if(isProcessing || (currentTime - lastScannedTime < 2000)) {
             image.close()
             return
         }
@@ -136,6 +139,7 @@ private class QrCodeAnalyzer(private val onQRCodeScanned: (String) -> Unit) : Im
 
             try {
                 val result = reader.decodeWithState(binaryBitmap)
+                lastScannedTime = currentTime
                 isProcessing = true
                 onQRCodeScanned(result.text)
             } catch(e: Exception) {

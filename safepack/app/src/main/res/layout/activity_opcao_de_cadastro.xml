@@ -8,21 +8,12 @@
     android:orientation="vertical"
     tools:context=".activity.OpcaoDeCadastroActivity">
 
-    <Button
-        android:id="@+id/sairButton"
+    <ImageView
+        android:id="@+id/arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="285dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginRight="20dp"
-        android:backgroundTint="@color/lavander"
-        android:text="Sair"
-        app:cornerRadius="15dp"
-        android:fontFamily="@font/montserratsemibold"
-        android:textAllCaps="false"/>
+        android:layout_margin="40dp"
+        android:src="@drawable/baseline_keyboard_backspace_24_white"/>
 
     <LinearLayout
         android:layout_width="match_parent"
