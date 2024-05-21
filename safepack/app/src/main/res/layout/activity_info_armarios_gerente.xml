@@ -7,23 +7,8 @@
     android:layout_height="match_parent"
     android:background="#373599"
     android:orientation="vertical"
+    android:padding="25dp"
     tools:context=".activity.InfoArmariosGerenteActivity">
-
-    <Button
-        android:id="@+id/sairButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="285dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginRight="20dp"
-        android:backgroundTint="@color/lavander"
-        android:text="Sair"
-        app:cornerRadius="15dp"
-        android:fontFamily="@font/montserratsemibold"
-        android:textAllCaps="false"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Informações do armário"
-            android:textSize="30sp"
+            android:textSize="30dp"
             android:textAlignment="center"
             android:textStyle="bold"
             android:textColor="#FFFFFF"

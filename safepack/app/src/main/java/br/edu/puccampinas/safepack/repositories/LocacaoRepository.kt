@@ -46,4 +46,30 @@ class LocacaoRepository {
 
         locacao.update(novoStatus)
     }
+
+    fun setFotoPessoaLocacao(locacaoId: String, foto: String, clienteAtual: Int) {
+        val novaFoto: Map<String, String>
+        if(clienteAtual == 1) {
+            novaFoto = hashMapOf("fotoPessoa1" to foto)
+        } else {
+            novaFoto = hashMapOf("fotoPessoa2" to foto)
+        }
+
+        val locacao = locacoesCollection.document(locacaoId)
+
+        locacao.update(novaFoto)
+    }
+
+    fun setIdNfcLocacao(locacaoId: String, id: String, clienteAtual: Int) {
+        val novoId: Map<String, String>
+        if(clienteAtual == 1) {
+            novoId = hashMapOf("idNfcPessoa1" to id)
+        } else {
+            novoId = hashMapOf("idNfcPessoa2" to id)
+        }
+
+        val locacao = locacoesCollection.document(locacaoId)
+
+        locacao.update(novoId)
+    }
 }

@@ -25,8 +25,6 @@ import java.util.concurrent.Executors
 class FotoClienteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFotoClienteBinding
     private lateinit var cameraExecutor: ExecutorService
-    private var qtdClientes: String? = null
-    private var clienteAtual: String? = null
     private var imageCapture: ImageCapture? = null
     private val outputDirectory: File by lazy {
         val mediaDir = externalMediaDirs.firstOrNull()?.let {
@@ -43,8 +41,15 @@ class FotoClienteActivity : AppCompatActivity() {
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        qtdClientes = intent.getStringExtra("qtdClientes")
-        clienteAtual = intent.getStringExtra("clienteAtual")
+        val idLocacao = intent.getStringExtra("idLocacao")
+        val qtdClientes = intent.getStringExtra("qtdClientes")
+        val clienteAtual = intent.getStringExtra("clienteAtual")
+        val fotoCliente1 = intent.getStringExtra("fotoCliente1")
+
+        Log.d("FotoClienteActivity", "qtdClientes: $qtdClientes")
+        Log.d("FotoClienteActivity", "clienteAtual: $clienteAtual")
+        Log.d("FotoClienteActivity", "idLocacao: $idLocacao")
+        Log.d("FotoClienteActivity", "fotoCliente1: $fotoCliente1")
 
         startCamera()
 
@@ -54,13 +59,18 @@ class FotoClienteActivity : AppCompatActivity() {
         }
 
         binding.tirarFotoButton.setOnClickListener {
-            takePhoto()
+            if(idLocacao != null && qtdClientes != null && clienteAtual != null) {
+                takePhoto(idLocacao, qtdClientes, clienteAtual, fotoCliente1)
+            } else {
+                Log.e("FotoClienteActivity", "Erro ao receber intens")
+            }
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
+        finish()
     }
 
     private fun startCamera() {
@@ -91,7 +101,10 @@ class FotoClienteActivity : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
-    private fun takePhoto() {
+    private fun takePhoto(idLocacao: String,
+                          qtdClientes: String,
+                          clienteAtual: String,
+                          fotoCliente1: String?) {
         blinkPreview()
 
         val imageCapture = imageCapture?: return
@@ -116,15 +129,18 @@ class FotoClienteActivity : AppCompatActivity() {
                     Log.d("FotoClienteActivity", "Path: ${photoFile.absolutePath}")
 
                     val iNFC = Intent(this@FotoClienteActivity, CadastroNfcActivity::class.java)
+                    iNFC.putExtra("idLocacao", idLocacao)
                     iNFC.putExtra("qtdClientes", qtdClientes)
-                    if(qtdClientes.equals("2") && clienteAtual.equals("1")) {
-                        iNFC.putExtra("photoFilePath1", photoFile.absolutePath)
-                        iNFC.putExtra("clienteAtual", clienteAtual)
-                    } else if(qtdClientes.equals("2") && clienteAtual.equals("2")) {
-                        iNFC.putExtra("photoFilePath2", photoFile.absolutePath)
-                        iNFC.putExtra("clienteAtual", clienteAtual)
-                    } else {
-                        iNFC.putExtra("photoFilePath1", photoFile.absolutePath)
+                    if(qtdClientes == ("2") && clienteAtual == ("1")) {
+                        iNFC.putExtra("fotoCliente1", photoFile.absolutePath)
+                        iNFC.putExtra("clienteAtual", "1")
+                    } else if(qtdClientes == ("2") && clienteAtual == ("2")) {
+                        iNFC.putExtra("fotoCliente1", fotoCliente1)
+                        iNFC.putExtra("fotoCliente2", photoFile.absolutePath)
+                        iNFC.putExtra("clienteAtual", "2")
+                    } else if(qtdClientes == ("1")) {
+                        iNFC.putExtra("fotoCliente1", photoFile.absolutePath)
+                        iNFC.putExtra("clienteAtual", "1")
                     }
 
                     startActivity(iNFC)
