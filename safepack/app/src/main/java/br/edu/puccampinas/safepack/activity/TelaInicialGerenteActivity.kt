@@ -43,13 +43,14 @@ class TelaInicialGerenteActivity : AppCompatActivity() {
         }
 
         // listener de clique no botão de abrir armário
-        binding.abrirArmarioButton.setOnClickListener {
+        binding.liberarLocacaoButton.setOnClickListener {
             cameraProviderResult.launch(android.Manifest.permission.CAMERA)
         }
 
         // listener de clique no botão de acessar armário
-        binding.acessarArmarioButton.setOnClickListener {
-
+        binding.abrirArmarioButton.setOnClickListener {
+            val iNfc = Intent(this, AbrirArmarioNfcActivity::class.java)
+            startActivity(iNfc)
         }
     }
 

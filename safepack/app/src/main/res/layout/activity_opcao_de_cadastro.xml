@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#373599"
+    android:padding="25dp"
     android:orientation="vertical"
     tools:context=".activity.OpcaoDeCadastroActivity">
 
@@ -12,7 +13,8 @@
         android:id="@+id/arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="40dp"
+        android:layout_margin="20dp"
+        android:layout_marginBottom="40dp"
         android:src="@drawable/baseline_keyboard_backspace_24_white"/>
 
     <LinearLayout
@@ -20,7 +22,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginHorizontal="20dp">
 
         <TextView

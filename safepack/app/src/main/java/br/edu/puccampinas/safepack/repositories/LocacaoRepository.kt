@@ -3,6 +3,7 @@ package br.edu.puccampinas.safepack.repositories
 import android.util.Log
 import br.edu.puccampinas.safepack.models.Locacao
 import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
@@ -11,14 +12,8 @@ class LocacaoRepository {
     private val db = FirebaseFirestore.getInstance()
     private val locacoesCollection = db.collection("locacao")
 
-    fun addLocacao(locacao: Locacao){
-        locacoesCollection.add(locacao)
-            .addOnSuccessListener {
-                Log.d("FIRESTORE", "ADD Firestore OK")
-            }
-            .addOnFailureListener { e ->
-                Log.e("FIRESTORE", "ERRO",e)
-            }
+    fun addLocacao(locacao: Locacao): Task<DocumentReference>{
+        return locacoesCollection.add(locacao)
     }
 
     fun getAllLocacoes(): Task<QuerySnapshot> {

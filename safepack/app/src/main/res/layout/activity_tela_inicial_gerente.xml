@@ -39,22 +39,22 @@
             android:fontFamily="@font/montserratbold"/>
 
         <Button
+            android:id="@+id/liberarLocacaoButton"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="Liberar locação"
-            android:id="@+id/abrirArmarioButton"
             android:textSize="18sp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="100dp"
             android:backgroundTint="@color/lavander"
             app:cornerRadius = "15dp"
             android:fontFamily="@font/montserratsemibold"
             android:textAllCaps="false"/>
 
         <Button
+            android:id="@+id/abrirArmarioButton"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Acessar Armário"
-            android:id="@+id/acessarArmarioButton"
+            android:text="Abrir armário"
             android:textSize="18sp"
             android:layout_marginTop="80dp"
             android:backgroundTint="@color/lavander"

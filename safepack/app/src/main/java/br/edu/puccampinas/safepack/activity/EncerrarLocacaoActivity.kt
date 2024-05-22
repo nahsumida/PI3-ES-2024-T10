@@ -1,21 +1,39 @@
 package br.edu.puccampinas.safepack.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import br.edu.puccampinas.safepack.R
+import br.edu.puccampinas.safepack.databinding.ActivityEncerrarLocacaoBinding
+import br.edu.puccampinas.safepack.repositories.LocacaoRepository
 
 class EncerrarLocacaoActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityEncerrarLocacaoBinding
+    private lateinit var locacaoRepository: LocacaoRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_encerrar_locacao)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        binding = ActivityEncerrarLocacaoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        locacaoRepository = LocacaoRepository()
+
+        val idLocacao = intent.getStringExtra("idLocacao")
+
+        binding.encerrarButton.setOnClickListener {
+            if(idLocacao != null) locacaoRepository.setStatusLocacao(idLocacao, "encerrada")
+
+            val iLocacaoEncerrada = Intent(this, LocacaoEncerradaActivity::class.java)
+            startActivity(iLocacaoEncerrada)
+        }
+
+        binding.cancelarButton.setOnClickListener {
+            val iTelaInicio = Intent(this, TelaInicialGerenteActivity::class.java)
+            startActivity(iTelaInicio)
         }
     }
 }
