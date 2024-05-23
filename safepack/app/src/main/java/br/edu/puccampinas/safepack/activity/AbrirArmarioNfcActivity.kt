@@ -105,7 +105,6 @@ class AbrirArmarioNfcActivity : AppCompatActivity() {
                     val text = String(payload, languageCodeLength + 1, payload.size - languageCodeLength - 1, textEncoding)
 
                     callVerificarClientesActivity(text)
-
                 }
             }
         }
