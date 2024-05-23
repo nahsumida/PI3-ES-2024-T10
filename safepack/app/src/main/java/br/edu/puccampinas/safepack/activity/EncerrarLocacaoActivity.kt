@@ -27,8 +27,8 @@ class EncerrarLocacaoActivity : AppCompatActivity() {
         binding.encerrarButton.setOnClickListener {
             if(idLocacao != null) locacaoRepository.setStatusLocacao(idLocacao, "encerrada")
 
-            val iLocacaoEncerrada = Intent(this, LocacaoEncerradaActivity::class.java)
-            startActivity(iLocacaoEncerrada)
+            val iLimparNFC = Intent(this, LimparPulseiraNfcActivity::class.java)
+            startActivity(iLimparNFC)
         }
 
         binding.cancelarButton.setOnClickListener {
