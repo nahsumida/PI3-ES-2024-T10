@@ -66,7 +66,7 @@ class AlugarArmarioActivity : AppCompatActivity() {
                 var cartaoVerificado = false
 
                 // verificar se o usuário possui cartão cadastrado
-                verificarCartao(auth, pessoaRepository) {result ->
+                verificarCartao(auth, pessoaRepository) { result ->
                     Log.d("CARTAO", "VERIFICADO: $result")
                     if(result && !cartaoVerificado) {
                         Log.d("VERIFICADO", "O usuário possui cartão")
@@ -84,22 +84,24 @@ class AlugarArmarioActivity : AppCompatActivity() {
                                 selectedButton.text.toString(),
                                 locacaoRepository,
                                 pessoaRepository
-                            )
+                            ) { idLocacao ->
 
-                            // obter unidade de locação para calcular o valor da locação
-                            unidadeLocacaoRepository.getUnidadeById(idUnidade)
-                                .addOnSuccessListener { unidade ->
+                                // obter unidade de locação para calcular o valor da locação
+                                unidadeLocacaoRepository.getUnidadeById(idUnidade)
+                                    .addOnSuccessListener { unidade ->
 
-                                    // calcular e exibir o valor da diária
-                                    val caucaoDiaria = calcularValor(8.0,
-                                        unidade.getDouble("valorHora"))
-                                    Log.d("COBRANÇA CARTÃO", "Valor diária: R$$caucaoDiaria")
+                                        // calcular e exibir o valor da diária
+                                        val caucaoDiaria = calcularValor(8.0,
+                                            unidade.getDouble("valorHora"))
+                                        Log.d("COBRANÇA CARTÃO", "Valor diária: R$$caucaoDiaria")
 
-                                    // abrir a activity QrCodeActivity
-                                    val iQRCode = Intent(this, QrCodeActivity::class.java)
-                                    iQRCode.putExtra("idQRCode", idUnidade)
-                                    startActivity(iQRCode)
-                                }
+                                        // abrir a activity QrCodeActivity
+                                        val iQRCode = Intent(this, QrCodeActivity::class.java)
+                                        iQRCode.putExtra("idQRCode", idLocacao)
+                                        startActivity(iQRCode)
+                                    }
+
+                            }
                         }
                     } else if (!cartaoVerificado) {
 
@@ -254,7 +256,8 @@ class AlugarArmarioActivity : AppCompatActivity() {
                                  unidadeR: UnidadeLocacaoRepository,
                                  textoRadio: String,
                                  locacaoR: LocacaoRepository,
-                                 pessoaR: PessoaRepository){
+                                 pessoaR: PessoaRepository,
+                                 callback: (String) -> Unit){
         val tempo = converterString(textoRadio)
         var armarioId = ""
         var locatarioId = ""
@@ -290,6 +293,14 @@ class AlugarArmarioActivity : AppCompatActivity() {
                                     valorHora)
 
                                 locacaoR.addLocacao(locacao)
+                                    .addOnSuccessListener { loc ->
+                                        val idLocacao = loc.id
+                                        callback(idLocacao)
+                                        Log.d("FIRESTORE", "ADD Firestore OK")
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Log.e("FIRESTORE", "ERRO",e)
+                                    }
                             }
                         }
                     }

@@ -28,4 +28,8 @@ class PessoaRepository {
             callback("null")
         }
     }
+
+    fun getPessoaById(pessoaId: String): Task<DocumentSnapshot> {
+        return pessoas.document(pessoaId).get()
+    }
 }

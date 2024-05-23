@@ -12,12 +12,7 @@
         android:id="@+id/sairButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="285dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginRight="20dp"
+        android:layout_margin="30dp"
         android:backgroundTint="@color/lavander"
         android:text="Sair"
         app:cornerRadius="15dp"
@@ -44,22 +39,22 @@
             android:fontFamily="@font/montserratbold"/>
 
         <Button
+            android:id="@+id/liberarLocacaoButton"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Abrir Armário"
-            android:id="@+id/abrirArmarioButton"
+            android:text="Liberar locação"
             android:textSize="18sp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="100dp"
             android:backgroundTint="@color/lavander"
             app:cornerRadius = "15dp"
             android:fontFamily="@font/montserratsemibold"
             android:textAllCaps="false"/>
 
         <Button
+            android:id="@+id/abrirArmarioButton"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="Acessar Armário"
-            android:id="@+id/acessarArmarioButton"
+            android:text="Abrir armário"
             android:textSize="18sp"
             android:layout_marginTop="80dp"
             android:backgroundTint="@color/lavander"

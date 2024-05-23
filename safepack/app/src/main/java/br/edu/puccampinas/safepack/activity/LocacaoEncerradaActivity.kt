@@ -7,20 +7,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import br.edu.puccampinas.safepack.R
-import br.edu.puccampinas.safepack.databinding.ActivityInfoArmariosGerenteBinding
+import br.edu.puccampinas.safepack.databinding.ActivityLocacaoEncerradaBinding
 
-class InfoArmariosGerenteActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityInfoArmariosGerenteBinding
+class LocacaoEncerradaActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityLocacaoEncerradaBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityInfoArmariosGerenteBinding.inflate(layoutInflater)
+        binding = ActivityLocacaoEncerradaBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.okButton.setOnClickListener {
-            val iTelaInicial = Intent(this, TelaInicialGerenteActivity::class.java)
-            startActivity(iTelaInicial)
+        binding.voltarMenuButton.setOnClickListener {
+            val iTelaInicio = Intent(this, TelaInicialGerenteActivity::class.java)
+            startActivity(iTelaInicio)
         }
     }
 }

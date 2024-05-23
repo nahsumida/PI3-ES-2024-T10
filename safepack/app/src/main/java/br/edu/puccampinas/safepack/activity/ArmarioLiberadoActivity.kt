@@ -34,7 +34,7 @@ class ArmarioLiberadoActivity : AppCompatActivity() {
 
         // configurar clique do botão "voltar ao menu"
         binding.voltarMenuButton.setOnClickListener {
-            alterarStatusLocacao(auth, "ativa", locacaoRepository, pessoaRepository)
+            //alterarStatusLocacao(auth, "ativa", locacaoRepository, pessoaRepository)
             val iMaps = Intent(this, MapsActivity::class.java)
             iMaps.putExtra("alertDialog", "1")
             startActivity(iMaps)

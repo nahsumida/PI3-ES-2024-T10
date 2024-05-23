@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -7,89 +7,152 @@
     android:layout_height="match_parent"
     android:background="#373599"
     android:orientation="vertical"
+    android:padding="25dp"
     tools:context=".activity.FinalizacaoDeAluguelActivity">
 
-    <Button
-        android:id="@+id/sairButton"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/aluguelDoArmarioGerenteText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="285dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginRight="20dp"
-        android:backgroundTint="@color/lavander"
-        android:text="Sair"
-        app:cornerRadius="15dp"
-        android:fontFamily="@font/montserratsemibold"
-        android:textAllCaps="false"/>
+        android:text="Aluguel do armário"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:layout_marginTop="90dp"
+        android:fontFamily="@font/montserratbold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <LinearLayout
+        android:id="@+id/lLduasPessoas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="40dp"
-        android:layout_marginHorizontal="20dp">
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="100dp"
+        app:layout_constraintTop_toBottomOf="@id/aluguelDoArmarioGerenteText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible">
 
         <TextView
-            android:id="@+id/aluguelDoArmarioGerenteText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Aluguel do armário"
-            android:textSize="30sp"
+            android:text="Primeiro cliente"
             android:textAlignment="center"
-            android:textStyle="bold"
             android:textColor="#FFFFFF"
-            android:fontFamily="@font/montserratbold"/>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/baseline_check_box_24"
-            android:visibility="visible"/>
+            android:textSize="20dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/montserratsemibold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/baseline_check_box_24"
-            android:text="Pulseira 1 cadastrada"
+            android:text="Foto registrada"
+            android:paddingStart="30dp"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            android:layout_marginTop="60sp"
-            android:layout_marginBottom="20sp"
-            android:fontFamily="@font/montserratbold"
-            android:visibility="visible"/>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/baseline_check_box_24"
-            android:visibility="visible"/>
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/montserratsemibold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/baseline_check_box_24"
-            android:text="Pulseira 2 cadastrada"
+            android:text="Pulseira cadastrada"
+            android:paddingStart="30dp"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            android:layout_marginVertical="20sp"
-            android:fontFamily="@font/montserratbold"
-            android:visibility="visible"/>
+            android:fontFamily="@font/montserratsemibold" />
 
-        <Button
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="Finalizar aluguel"
-            android:id="@+id/finalizarAluguelButton"
-            android:textSize="18sp"
-            android:layout_marginTop="80dp"
-            android:backgroundTint="@color/lavander"
-            app:cornerRadius = "15dp"
-            android:fontFamily="@font/montserratsemibold"
-            android:textAllCaps="false"/>
+            android:layout_height="wrap_content"
+            android:text="Segundo cliente"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="60dp"
+            android:textSize="20dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/montserratsemibold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_check_box_24"
+            android:text="Foto registrada"
+            android:paddingStart="30dp"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/montserratsemibold" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_check_box_24"
+            android:text="Pulseira cadastrada"
+            android:paddingStart="30dp"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:fontFamily="@font/montserratsemibold" />
+
 
     </LinearLayout>
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+    <LinearLayout
+        android:id="@+id/lLumaPessoa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="200dp"
+        app:layout_constraintTop_toBottomOf="@id/aluguelDoArmarioGerenteText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_check_box_24"
+            android:text="Foto registrada"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/montserratsemibold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_check_box_24"
+            android:text="Pulseira cadastrada"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:fontFamily="@font/montserratsemibold" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/confirmarLocacaoButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Confirmar locação"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="45dp"
+        android:textSize="18dp"
+        app:cornerRadius="8dp"
+        android:visibility="visible"
+        android:backgroundTint="@color/lavander"
+        android:fontFamily="@font/montserratsemibold"
+        android:textAllCaps="false"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

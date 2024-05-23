@@ -7,344 +7,61 @@
     android:layout_height="match_parent"
     android:background="#373599"
     android:orientation="vertical"
+    android:paddingHorizontal="25dp"
     tools:context=".activity.VerificarClientesActivity">
 
-    <Button
-        android:id="@+id/sairButton"
+    <TextView
+        android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="285dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginRight="20dp"
-        android:backgroundTint="@color/lavander"
-        android:text="Sair"
-        app:cornerRadius="15dp"
-        android:fontFamily="@font/montserratsemibold"
-        android:textAllCaps="false"/>
+        android:text="Verificar foto do cliente"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:fontFamily="@font/montserratbold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/imageCliente"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/imageCliente"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:backgroundTint="#5C58FF29"
-        android:gravity="center"
+        android:layout_height="450dp"
+        android:scaleType="center"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:src="@drawable/outline_person_24_white"
+        app:layout_constraintTop_toBottomOf="@id/tv"
+        app:layout_constraintBottom_toTopOf="@id/prosseguirButton"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-        <!-- Layout Dados Cliente 1: -->
+    <Button
+        android:id="@+id/prosseguirButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Prosseguir"
+        android:textSize="18sp"
+        android:backgroundTint="@color/lavander"
+        app:cornerRadius = "15dp"
+        android:fontFamily="@font/montserratsemibold"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/imageCliente"
+        app:layout_constraintBottom_toTopOf="@id/cancelarButton"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-        <LinearLayout
-            android:id="@+id/dadosClienteUm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginHorizontal="13dp"
-            android:backgroundTint="#5C58FF29"
-            android:orientation="vertical"
-            android:visibility="visible">
-
-            <!--
-            Adicionar abaixo Imagem Cliente que efetuou o aluguel.
-            -->
-
-            <ImageView
-                android:id="@+id/fotoClienteUm"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:visibility="visible">
-            </ImageView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:id="@+id/nomeClienteUmText"
-                android:text="Exemplo nome 1"
-                android:textSize="25sp"
-                android:textColor="#FFFFFF"
-                android:fontFamily="@font/montserratsemibold"
-                android:textAlignment="center"
-                android:visibility="visible">
-            </TextView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal"
-                android:visibility="visible">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserratsemibold"
-                    android:text="CPF:"
-                    android:textColor="#FFFFFF"
-                    android:textSize="17sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/cpfClienteUmText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CPF exemplo 1"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="17dp"
-                    android:fontFamily="@font/montserratmedium"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal"
-                android:visibility="visible">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserratsemibold"
-                    android:text="Telefone:"
-                    android:textColor="#FFFFFF"
-                    android:textSize="17sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/telefoneClienteUmText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Telefone exemplo 1"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="17dp"
-                    android:fontFamily="@font/montserratmedium"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal"
-                android:visibility="visible">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserratsemibold"
-                    android:text="E-mail:"
-                    android:textColor="#FFFFFF"
-                    android:textSize="17sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/emailClienteUmText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="E-mail exemplo 1"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="17dp"
-                    android:fontFamily="@font/montserratmedium"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal"
-                android:visibility="visible">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserratsemibold"
-                    android:text="Data de Nascimento:"
-                    android:textColor="#FFFFFF"
-                    android:textSize="17sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/emailClienteUmText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="XX/XX/XXXX"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="17dp"
-                    android:fontFamily="@font/montserratmedium"/>
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- Layout Dados Cliente 2: -->
-
-        <LinearLayout
-            android:id="@+id/dadosClienteDois"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginHorizontal="13dp"
-            android:backgroundTint="#5C58FF29"
-            android:orientation="vertical"
-            android:visibility="visible">
-
-            <!--
-            Adicionar abaixo Imagem Cliente que efetuou o aluguel.
-            -->
-
-            <ImageView
-                android:id="@+id/fotoClienteDois"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:visibility="visible">
-            </ImageView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:id="@+id/nomeClienteDoisText"
-                android:text="Exemplo nome 2"
-                android:textSize="25sp"
-                android:textColor="#FFFFFF"
-                android:fontFamily="@font/montserratsemibold"
-                android:textAlignment="center"
-                android:visibility="visible">
-            </TextView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal"
-                android:visibility="visible">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserratsemibold"
-                    android:text="CPF:"
-                    android:textColor="#FFFFFF"
-                    android:textSize="17sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/cpfClienteDoisText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CPF exemplo 2"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="17dp"
-                    android:fontFamily="@font/montserratmedium"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal"
-                android:visibility="visible">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserratsemibold"
-                    android:text="Telefone:"
-                    android:textColor="#FFFFFF"
-                    android:textSize="17sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/telefoneClienteDoisText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Telefone exemplo 2"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="17dp"
-                    android:fontFamily="@font/montserratmedium"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal"
-                android:visibility="visible">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserratsemibold"
-                    android:text="E-mail:"
-                    android:textColor="#FFFFFF"
-                    android:textSize="17sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/emailClienteDoisText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="E-mail exemplo 2"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="17dp"
-                    android:fontFamily="@font/montserratmedium"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal"
-                android:visibility="visible">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserratsemibold"
-                    android:text="Data de Nascimento:"
-                    android:textColor="#FFFFFF"
-                    android:textSize="17sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/emailClienteDoisText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="YY/YY/YYYY"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="17dp"
-                    android:fontFamily="@font/montserratmedium"/>
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- Layout BTN Prosseguir: -->
-
-        <Button
-            android:id="@+id/verificarClientesButton"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginVertical="20dp"
-            android:backgroundTint="@color/lavander"
-            android:fontFamily="@font/montserratsemibold"
-            android:text="Prosseguir"
-            android:textAllCaps="false"
-            android:textSize="18sp"
-            app:cornerRadius="15dp"/>
-
-    </LinearLayout>
+    <Button
+        android:id="@+id/cancelarButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Cancelar"
+        android:textSize="18sp"
+        android:backgroundTint="@color/lavander"
+        app:cornerRadius = "15dp"
+        android:fontFamily="@font/montserratsemibold"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/prosseguirButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 
 
