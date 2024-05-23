@@ -18,6 +18,7 @@ class PessoaRepository {
 
         return cartaoCollection.get()
     }
+
     fun getIdByAuthId(authId: String, callback: (String) -> Unit) {
         getAllPessoas().addOnSuccessListener { pessoas ->
             for(pessoa in pessoas) {

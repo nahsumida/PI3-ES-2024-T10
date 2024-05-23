@@ -3,6 +3,8 @@ package br.edu.puccampinas.safepack.activity
 import android.content.Intent
 import android.media.Image
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.util.Size
 import android.widget.Toast
@@ -16,7 +18,11 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import br.edu.puccampinas.safepack.databinding.ActivityQrCodeLeituraBinding
+import br.edu.puccampinas.safepack.models.Pessoa
 import br.edu.puccampinas.safepack.repositories.LocacaoRepository
+import br.edu.puccampinas.safepack.repositories.PessoaRepository
+import br.edu.puccampinas.safepack.repositories.UnidadeLocacaoRepository
+import com.google.firebase.auth.FirebaseAuth
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.BinaryBitmap
 import com.google.zxing.DecodeHintType
@@ -31,7 +37,10 @@ class QrCodeLeituraActivity : AppCompatActivity() {
     private lateinit var binding: ActivityQrCodeLeituraBinding
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var locacaoRepository: LocacaoRepository
+    private lateinit var pessoaRepository: PessoaRepository
+    private lateinit var unidadeLocacaoRepository: UnidadeLocacaoRepository
     private lateinit var qrCodeAnalyzer: QrCodeAnalyzer
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +50,9 @@ class QrCodeLeituraActivity : AppCompatActivity() {
 
         cameraExecutor = Executors.newSingleThreadExecutor()
         locacaoRepository = LocacaoRepository()
+        pessoaRepository = PessoaRepository()
+        unidadeLocacaoRepository = UnidadeLocacaoRepository()
+        auth = FirebaseAuth.getInstance()
 
         qrCodeAnalyzer = QrCodeAnalyzer { qrCode ->
             runOnUiThread {
@@ -100,9 +112,55 @@ class QrCodeLeituraActivity : AppCompatActivity() {
             .addOnSuccessListener { locacao ->
                 qrCodeAnalyzer.resetProcessingFlag()
                 if(locacao.exists()) {
-                    val iOpcaoCadastro = Intent(this, OpcaoDeCadastroActivity::class.java)
-                    iOpcaoCadastro.putExtra("idLocacao", qrCode)
-                    startActivity(iOpcaoCadastro)
+                    if(locacao.getString("status").equals("pendente"))  {
+                        val idUnidade = locacao.getString("unidadeId")
+                        if(idUnidade != null) {
+                            unidadeLocacaoRepository.getUnidadeById(idUnidade)
+                                .addOnSuccessListener { unidade ->
+
+                                    if(unidade.exists() && auth.uid != null) {
+                                        var callbackCalled = false
+                                        pessoaRepository.getIdByAuthId(auth.uid!!) { id ->
+
+                                            if (callbackCalled) return@getIdByAuthId
+                                            callbackCalled = true
+
+                                            val gerenteId = unidade.getString("gerenteID")
+                                            Log.d("VerificacaoGerente", "gerenteId: $gerenteId, id: $id")
+
+                                            if(gerenteId == id) {
+                                                Log.d("VerificacaoGerente", "Usuário é o gerente")
+                                                val iOpcaoCadastro = Intent(
+                                                    this,
+                                                    OpcaoDeCadastroActivity::class.java
+                                                )
+                                                iOpcaoCadastro.putExtra("idLocacao", qrCode)
+                                                startActivity(iOpcaoCadastro)
+                                            } else {
+                                                Log.d("VerificacaoGerenteElse", "Usuário não é o gerente")
+                                                Toast.makeText(
+                                                    this,
+                                                    "Você não é o gerente dessa unidade",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                        }
+                                    }
+                                }
+                        }
+                    } else if (locacao.getString("status").equals("ativa")){
+                        Toast.makeText(
+                            this,
+                            "A locação em questão já está ativa",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            this,
+                            "A locação em questão já foi encerrada",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 } else {
                     Toast.makeText(
                         this,
