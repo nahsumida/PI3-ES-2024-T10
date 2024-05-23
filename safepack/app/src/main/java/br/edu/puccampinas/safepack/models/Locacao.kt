@@ -4,6 +4,7 @@ import com.google.firebase.Timestamp
 
 data class Locacao (
     val armarioId: String,
+    val porta: Int?,
     val inicio: Timestamp,
     val locatarioId: String,
     val status: String,

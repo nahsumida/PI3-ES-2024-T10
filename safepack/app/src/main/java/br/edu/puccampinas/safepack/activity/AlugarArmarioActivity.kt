@@ -17,7 +17,9 @@ import br.edu.puccampinas.safepack.repositories.UnidadeLocacaoRepository
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import java.lang.Math.random
 import java.util.Calendar
+import kotlin.random.Random.Default.nextDouble
 
 class AlugarArmarioActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAlugarArmarioBinding
@@ -260,6 +262,7 @@ class AlugarArmarioActivity : AppCompatActivity() {
                                  callback: (String) -> Unit){
         val tempo = converterString(textoRadio)
         var armarioId = ""
+        var porta: Int? = 0
         var locatarioId = ""
         val inicio = Timestamp.now()
         val authId:String? = auth.currentUser?.uid
@@ -269,6 +272,9 @@ class AlugarArmarioActivity : AppCompatActivity() {
             .addOnSuccessListener { armarios ->
                 for(armario in armarios) {
                     armarioId += armario.id
+                    val qtdPortas = armario.getDouble("qtdPortas")
+                    porta = qtdPortas?.let { nextDouble(1.0, qtdPortas).toInt() }?.toInt()
+                    Log.d("AlugarArmarioActivity", "qtdPortas: $qtdPortas  porta $porta")
                     break
                 }
                 pessoaR.getAllPessoas()
@@ -285,6 +291,7 @@ class AlugarArmarioActivity : AppCompatActivity() {
 
                                 val locacao = Locacao(
                                     armarioId,
+                                    porta,
                                     inicio,
                                     locatarioId,
                                     status,
