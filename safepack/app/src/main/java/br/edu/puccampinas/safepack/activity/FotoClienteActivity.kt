@@ -3,9 +3,11 @@ package br.edu.puccampinas.safepack.activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -22,6 +24,7 @@ import java.text.SimpleDateFormat
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
+@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class FotoClienteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFotoClienteBinding
     private lateinit var cameraExecutor: ExecutorService
@@ -33,6 +36,7 @@ class FotoClienteActivity : AppCompatActivity() {
         if (mediaDir != null && mediaDir.exists()) mediaDir else filesDir
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -101,6 +105,7 @@ class FotoClienteActivity : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun takePhoto(idLocacao: String,
                           qtdClientes: String,
                           clienteAtual: String,
@@ -149,6 +154,7 @@ class FotoClienteActivity : AppCompatActivity() {
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun blinkPreview() {
         binding.root.postDelayed({
             binding.root.foreground = ColorDrawable(Color.WHITE)

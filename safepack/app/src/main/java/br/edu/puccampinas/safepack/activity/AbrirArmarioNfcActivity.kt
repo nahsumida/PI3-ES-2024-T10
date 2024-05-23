@@ -11,6 +11,7 @@ import android.nfc.Tag
 import android.nfc.tech.Ndef
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -36,7 +37,9 @@ class AbrirArmarioNfcActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
+
         if (nfcAdapter == null) {
+            Log.e("AbrirArmarioNfcActivity", "getDefaultAdapter retornou null")
             Toast.makeText(this, "Este dispositivo não suporta NFC", Toast.LENGTH_SHORT).show()
             finish()
             return

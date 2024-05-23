@@ -33,9 +33,9 @@ class VerificarClientesActivity : AppCompatActivity() {
 
         if(idLocacao != null && numeroCliente != 0) {
             exibirFotoCliente(idLocacao, numeroCliente)
-            Log.d("VerificarClientesActivity", "Método exibirFotoCliente chamado")
+            Log.d("VerificarClientes", "Método exibirFotoCliente chamado")
         } else {
-            Log.e("VerificarClientesActivity", "idLocacao ou numeroCliente nulo")
+            Log.e("VerificarClientes", "idLocacao ou numeroCliente nulo")
         }
 
         binding.prosseguirButton.setOnClickListener {
@@ -63,11 +63,11 @@ class VerificarClientesActivity : AppCompatActivity() {
 
                     if(imageUrl != null) carregarImagem(imageUrl)
                 } else {
-                    Log.e("VerificarClientesActivity", "Locação não encontrada")
+                    Log.e("VerificarClientes", "Locação não encontrada")
                 }
             }
             .addOnFailureListener { e ->
-                Log.e("VerificarClientesActivity", "Erro: e")
+                Log.e("VerificarClientes", "Erro: e")
             }
     }
 
