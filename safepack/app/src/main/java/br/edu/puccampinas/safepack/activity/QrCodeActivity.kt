@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.safepack.databinding.ActivityQrCodeBinding
+import br.edu.puccampinas.safepack.repositories.LocacaoRepository
 import br.edu.puccampinas.safepack.repositories.UnidadeLocacaoRepository
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
