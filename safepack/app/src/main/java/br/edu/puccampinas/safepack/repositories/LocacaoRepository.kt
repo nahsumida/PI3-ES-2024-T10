@@ -3,6 +3,7 @@ package br.edu.puccampinas.safepack.repositories
 import android.util.Log
 import br.edu.puccampinas.safepack.models.Locacao
 import com.google.android.gms.tasks.Task
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -66,5 +67,18 @@ class LocacaoRepository {
         val locacao = locacoesCollection.document(locacaoId)
 
         locacao.update(novoId)
+    }
+
+    fun setFimLocacao(locacaoId: String, tempo: Timestamp) {
+        val fim: Map<String, Timestamp> = hashMapOf("fim" to tempo)
+        val locacao = locacoesCollection.document(locacaoId)
+
+        locacao.update(fim)
+    }
+
+    fun setEstorno(locacaoId: String, estorno: Double) {
+        val estornoMulta: Map<String, Double> = hashMapOf("estorno" to estorno)
+
+        locacoesCollection.document(locacaoId).update(estornoMulta)
     }
 }
