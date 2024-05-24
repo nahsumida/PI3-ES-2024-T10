@@ -3,64 +3,49 @@ import * as admin from "firebase-admin";
 
 const app = admin.initializeApp();
 const db = app.firestore();
-// const colUnidadeLocacao = db.collection("unidadeLocacao");
-const colPessoa = db.collection("pessoa");
-// const colLocacao = db.collection("locacao");
+const locacaoCollection = db.collection("locacao");
 
-export const addSamplePerson = functions
+// adiciona o valor do extorno na locacao
+/*
+export const addEstornoLocacao = functions
   .region("southamerica-east1")
-  .https.onRequest(async (request, response) => {
-    const pessoa = {
-      nome: "natalia firebase",
-      dataNascimento: "16 de abril de 2024 às 00:00:00 UTC-3",
-      ehGerente: false,
-      email: "pi@gmail.com",
-      cpf: "12312312345",
-      senha: "augdfau",
-      telefone: "99999999",
-    };
+  .https.onRequest(async (request:any, response:any) => {
+    const idLocacao = response.body.idLocacao;
+    const valEstorno = response.body.valEstorno;
+
     try {
-      const docRef = await colPessoa.add(pessoa);
-      response.send("pessoa inserida com sucesso. Referencia: " + docRef.id);
+      const dataToUpdate = {
+        estorno: valEstorno,
+      };
+
+      await locacaoCollection.doc(idLocacao).update(dataToUpdate);
+      response.send("Estorno atualizado com sucesso");
     } catch (e) {
       functions.logger.error("Erro ao inserir pessoa de exemplo");
     }
   });
-
-export const deletePerson = functions
+*/
+export const addEstornoLocacao = functions
   .region("southamerica-east1")
-  .https.onRequest(async (request, response) => {
-    try {
-      const pessoaId = "7k9WSM8ISZg23ka1aNTX";
-      await colPessoa.doc(pessoaId).delete();
-      response.send("pessoa deletada com sucesso.");
-    } catch (e) {
-      functions.logger.error("Erro ao deletar pessoa");
-    }
-  });
+  .https.onRequest(async (request: any, response: any) => {
+    const idLocacao = request.body.idLocacao;
+    const valEstorno = request.body.valEstorno;
 
-// buscar pessoa com email x
-export const searchPerson = functions
-  .region("southamerica-east1")
-  .https.onRequest(async (request, response) => {
-    if (request.method !== "GET") {
-      response.status(405).send("Metodo http não permitido");
+    if (!idLocacao || !valEstorno) {
+      response.status(400)
+        .send("Os parâmetros idLocacao e valEstorno são obrigatórios.");
+      return;
     }
 
     try {
-      // chamado de snapshot, pois eles podem ser alterados
-      // simultaneamente, ou seja temos uma
-      // copia de como estavam no momento da consulta
-      const snapshot = await colPessoa
-        .where("email", "==", "pi@gmail.com")
-        .get();
-      const pessoa : any = [];
-      snapshot.forEach((doc) => {
-        pessoa.push(doc.data());
-      });
-      response.status(200)
-        .json(pessoa);
+      const dataToUpdate = {
+        estorno: valEstorno,
+      };
+
+      await locacaoCollection.doc(idLocacao).set(dataToUpdate, {merge: true});
+      response.send("Estorno atualizado com sucesso");
     } catch (e) {
-      functions.logger.error("Erro ao buscar pessoa");
+      functions.logger.error("Erro ao atualizar estorno da locação", e);
+      response.status(500).send("Erro ao atualizar estorno da locação");
     }
   });
