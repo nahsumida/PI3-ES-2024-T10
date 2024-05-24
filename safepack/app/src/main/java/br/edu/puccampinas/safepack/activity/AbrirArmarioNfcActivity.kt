@@ -19,21 +19,5 @@ class AbrirArmarioNfcActivity : AppCompatActivity() {
         binding = ActivityAbrirArmarioNfcBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*
-
-        // valores de teste, esses valores devem estar presentes na nfc
-        val idLocacao = "YeBSnDBpZtfhDExqFiqE"
-        val numeroCliente = 1
-        val qtdClientes = 1
-
-        binding.button.setOnClickListener {
-            val iVerificarClientes = Intent(this, VerificarClientesActivity::class.java)
-            iVerificarClientes.putExtra("idLocacao", idLocacao)
-            iVerificarClientes.putExtra("numeroCliente", numeroCliente)
-            iVerificarClientes.putExtra("qtdClientes", qtdClientes)
-            startActivity(iVerificarClientes)
-        }
-
-        */
     }
 }
