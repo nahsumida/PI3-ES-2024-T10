@@ -56,42 +56,17 @@ class EncerrarLocacaoActivity : AppCompatActivity() {
                     0
                 }
 
+                val valorUtilizado = valorHora?.times(tempoUtilizado)
+
+                val diaria = 11 * valorHora!!
+
                 val stringTempo = loc.getString("tempo")
                 Log.d("EncerrarLocacaoActivity", "stringTempo: $stringTempo")
 
-                val tempoContratado = if (stringTempo != null) {
-                    converterString(stringTempo)
-                    Log.d("EncerrarLocacaoActivity", "stringTempo != null")
-                } else {
-                    0
-                }
+                val valorEstorno = diaria - valorUtilizado!!
+                Log.d("EncerrarLocacaoActivity", "Estorno: $valorEstorno")
 
-                Log.d("EncerrarLocacaoActivity", "Tempo contratado: $tempoContratado")
-
-                var valorEstorno: Double = 0.0
-                var multa: Double = 0.0
-
-                val tempoNaoUtilizado = tempoContratado - tempoUtilizado
-                Log.d("EncerrarLocacaoActivity", "Tempo não utilizado: $tempoNaoUtilizado")
-
-                if (tempoNaoUtilizado >= 0) {
-                    if (valorHora != null) {
-                        valorEstorno = valorHora * tempoNaoUtilizado
-                        Log.d("EncerrarLocacaoActivity", "Estorno: $valorEstorno")
-                    } else {
-                        Log.e("EncerrarLocacaoActivity", "valorHora nulo")
-                    }
-                } else {
-                    if (valorHora != null) {
-                        multa = valorHora * -tempoNaoUtilizado
-                        Log.d("EncerrarLocacaoActivity", "Multa: $multa")
-                    } else {
-                        Log.e("EncerrarLocacaoActivity", "valorHora nulo")
-
-                    }
-                }
-
-                locacaoRepository.setEstornoMulta(idLocacao, valorEstorno, multa)
+                locacaoRepository.setEstorno(idLocacao, valorEstorno)
                 locacaoRepository.setFimLocacao(idLocacao, fim)
                 locacaoRepository.setStatusLocacao(idLocacao, "encerrada")
             }

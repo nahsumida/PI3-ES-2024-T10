@@ -76,8 +76,8 @@ class LocacaoRepository {
         locacao.update(novoId)
     }
 
-    fun setEstornoMulta(locacaoId: String, estorno: Double, multa: Double) {
-        val estornoMulta: Map<String, Double> = hashMapOf("estorno" to estorno, "multa" to multa)
+    fun setEstorno(locacaoId: String, estorno: Double) {
+        val estornoMulta: Map<String, Double> = hashMapOf("estorno" to estorno)
 
         locacoesCollection.document(locacaoId).update(estornoMulta)
     }
