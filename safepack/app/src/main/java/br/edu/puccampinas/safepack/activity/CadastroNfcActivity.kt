@@ -26,9 +26,9 @@ class CadastroNfcActivity : AppCompatActivity() {
     private lateinit var intentFiltersArray: Array<IntentFilter>
 
     // valores de teste, esses valores devem estar presentes na nfc
-    private val idLocacao = "zwu1ZJi5beUHmcwQCEj9"
-    private val numeroCliente = 1
-    private val qtdClientes = 1
+    private val idLocacao = intent.getStringExtra("idLocacao")
+    private val numeroCliente = intent.getIntExtra("numeroCliente", 0)
+    private val qtdClientes = intent.getIntExtra("qtdClientes", 0)
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
     override fun onCreate(savedInstanceState: Bundle?) {
