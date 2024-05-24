@@ -2,6 +2,7 @@ package br.edu.puccampinas.safepack.activity
 
 import android.content.Intent
 import android.media.Image
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,6 +10,7 @@ import android.util.Log
 import android.util.Size
 import android.widget.Toast
 import androidx.annotation.OptIn
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ExperimentalGetImage
@@ -42,6 +44,7 @@ class QrCodeLeituraActivity : AppCompatActivity() {
     private lateinit var qrCodeAnalyzer: QrCodeAnalyzer
     private lateinit var auth: FirebaseAuth
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -73,6 +76,7 @@ class QrCodeLeituraActivity : AppCompatActivity() {
         cameraExecutor.shutdown()
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
@@ -182,6 +186,7 @@ private class QrCodeAnalyzer(private val onQRCodeScanned: (String) -> Unit) : Im
     private var isProcessing = false
     private var lastScannedTime = 0L
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @OptIn(ExperimentalGetImage::class) override fun analyze(image: ImageProxy) {
         val currentTime = System.currentTimeMillis()
         if(isProcessing || (currentTime - lastScannedTime < 2000)) {
@@ -208,6 +213,7 @@ private class QrCodeAnalyzer(private val onQRCodeScanned: (String) -> Unit) : Im
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun Image.toLuminanceSource(rotationDegrees: Int): LuminanceSource {
         val yPlane = planes[0]
         val yBuffer = yPlane.buffer
