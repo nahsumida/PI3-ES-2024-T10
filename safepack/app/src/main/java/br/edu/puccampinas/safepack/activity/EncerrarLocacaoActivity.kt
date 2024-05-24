@@ -12,6 +12,10 @@ import br.edu.puccampinas.safepack.databinding.ActivityEncerrarLocacaoBinding
 import br.edu.puccampinas.safepack.repositories.LocacaoRepository
 import com.google.firebase.Timestamp
 import java.util.concurrent.TimeUnit
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import org.json.JSONObject
+import java.io.IOException
 
 class EncerrarLocacaoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEncerrarLocacaoBinding
@@ -61,15 +65,54 @@ class EncerrarLocacaoActivity : AppCompatActivity() {
                 val diaria = 11 * valorHora!!
 
                 val stringTempo = loc.getString("tempo")
-                Log.d("EncerrarLocacaoActivity", "stringTempo: $stringTempo")
 
                 val valorEstorno = diaria - valorUtilizado!!
-                Log.d("EncerrarLocacaoActivity", "Estorno: $valorEstorno")
 
-                locacaoRepository.setEstorno(idLocacao, valorEstorno)
-                locacaoRepository.setFimLocacao(idLocacao, fim)
-                locacaoRepository.setStatusLocacao(idLocacao, "encerrada")
+                // Chamar a Firebase Function addEstornoLocacao
+                chamarFirebaseFunction(idLocacao, valorEstorno, fim)
             }
     }
 
+    private fun chamarFirebaseFunction(idLocacao: String, valorEstorno: Double, fim: Timestamp) {
+        val client = OkHttpClient()
+        val url = "https://southamerica-east1-pi3-es-2024-t10.cloudfunctions.net/addEstornoLocacao"
+
+        val json = JSONObject().apply {
+            put("idLocacao", idLocacao)
+            put("valorEstorno", valorEstorno)
+            put("fim", fim.toDate().time)
+        }
+
+        val mediaType = "application/json; charset=utf-8".toMediaType()
+        val body = RequestBody.create(mediaType, json.toString())
+
+        val request = Request.Builder()
+            .url(url)
+            .post(body)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("EncerrarLocacaoActivity", "Erro ao chamar a Firebase Function", e)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val responseBody = response.body?.string()
+                if (!response.isSuccessful) {
+                    Log.e("EncerrarLocacaoActivity", "Erro na resposta da Firebase Function: $responseBody")
+                } else {
+                    responseBody?.let {
+                        Log.d("EncerrarLocacaoActivity", "Resposta da Firebase Function: $it")
+                    } ?: run {
+                        Log.e("EncerrarLocacaoActivity", "Resposta da Firebase Function é nula")
+                    }
+                    runOnUiThread {
+                        // Atualizar status da locação e interface do usuário
+                        locacaoRepository.setStatusLocacao(idLocacao, "encerrada")
+                        Log.d("EncerrarLocacaoActivity", "Estorno registrado com sucesso e status atualizado")
+                    }
+                }
+            }
+        })
+    }
 }
