@@ -18,6 +18,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import java.util.Calendar
+import kotlin.random.Random.Default.nextDouble
 
 class AlugarArmarioActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAlugarArmarioBinding
@@ -91,7 +92,7 @@ class AlugarArmarioActivity : AppCompatActivity() {
                                     .addOnSuccessListener { unidade ->
 
                                         // calcular e exibir o valor da diária
-                                        val caucaoDiaria = calcularValor(8.0,
+                                        val caucaoDiaria = calcularValor(11.0,
                                             unidade.getDouble("valorHora"))
                                         Log.d("COBRANÇA CARTÃO", "Valor diária: R$$caucaoDiaria")
 
@@ -124,7 +125,7 @@ class AlugarArmarioActivity : AppCompatActivity() {
         super.onResume()
 
         // verificar horário para exibir ou ocultar o radio button "até as 18:00"
-        //verificarHorario()
+        verificarHorario()
     }
 
     // método para verificar se é hora de exibir o radio button
@@ -184,7 +185,7 @@ class AlugarArmarioActivity : AppCompatActivity() {
                 binding.radioButton5.text = stringPreco(binding.radioButton5.text.toString(),
                     calcularValor(6.0,unidade.getDouble("valorHora")))
                 binding.radioButton6.text = stringPreco(binding.radioButton6.text.toString(),
-                    calcularValor(8.0,unidade.getDouble("valorHora")))
+                    calcularValor(11.0,unidade.getDouble("valorHora")))
             }
         } .addOnFailureListener { e ->
             Log.e("Firestore Valor", "ERRO", e)
@@ -260,6 +261,7 @@ class AlugarArmarioActivity : AppCompatActivity() {
                                  callback: (String) -> Unit){
         val tempo = converterString(textoRadio)
         var armarioId = ""
+        var porta: Int? = 0
         var locatarioId = ""
         val inicio = Timestamp.now()
         val authId:String? = auth.currentUser?.uid
@@ -269,6 +271,9 @@ class AlugarArmarioActivity : AppCompatActivity() {
             .addOnSuccessListener { armarios ->
                 for(armario in armarios) {
                     armarioId += armario.id
+                    val qtdPortas = armario.getDouble("qtdPortas")
+                    porta = qtdPortas?.let { nextDouble(1.0, qtdPortas).toInt() }?.toInt()
+                    Log.d("AlugarArmarioActivity", "qtdPortas: $qtdPortas porta: $porta")
                     break
                 }
                 pessoaR.getAllPessoas()
@@ -285,6 +290,7 @@ class AlugarArmarioActivity : AppCompatActivity() {
 
                                 val locacao = Locacao(
                                     armarioId,
+                                    porta,
                                     inicio,
                                     locatarioId,
                                     status,
