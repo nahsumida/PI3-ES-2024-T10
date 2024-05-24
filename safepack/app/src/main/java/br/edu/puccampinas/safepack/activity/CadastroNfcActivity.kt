@@ -19,18 +19,12 @@ import br.edu.puccampinas.safepack.databinding.ActivityCadastroNfcBinding
 import java.io.IOException
 
 class CadastroNfcActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityCadastroNfcBinding
     private var nfcAdapter: NfcAdapter? = null
     private lateinit var pendingIntent: PendingIntent
     private lateinit var intentFiltersArray: Array<IntentFilter>
 
-    // valores de teste, esses valores devem estar presentes na nfc
-    private val idLocacao = intent.getStringExtra("idLocacao")
-    private val numeroCliente = intent.getIntExtra("numeroCliente", 0)
-    private val qtdClientes = intent.getIntExtra("qtdClientes", 0)
-
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -44,10 +38,21 @@ class CadastroNfcActivity : AppCompatActivity() {
             return
         }
 
+        val idLocacao = intent.getStringExtra("idLocacao")
+        val clienteAtual = intent.getStringExtra("clienteAtual")
+        val qtdClientes = intent.getStringExtra("qtdClientes")
+
+        Log.d("idLocacao", idLocacao ?: "idLocacao is null")
+
         // Create a PendingIntent to handle NFC intents
         pendingIntent = PendingIntent.getActivity(
             this, 0,
-            Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+            Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP).apply {
+                putExtra("idLocacao", idLocacao)
+                putExtra("clienteAtual", clienteAtual)
+                putExtra("qtdClientes", qtdClientes)
+            },
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
         )
 
         // Create an IntentFilter for NDEF discovery
@@ -56,6 +61,10 @@ class CadastroNfcActivity : AppCompatActivity() {
         }
 
         intentFiltersArray = arrayOf(tagDetected)
+
+        intent?.let {
+            handleIntent(it)
+        }
     }
 
     override fun onResume() {
@@ -71,10 +80,21 @@ class CadastroNfcActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun handleIntent(intent: Intent) {
         if (NfcAdapter.ACTION_TAG_DISCOVERED == intent.action) {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
+            val idLocacao = intent.getStringExtra("idLocacao")
+            val clienteAtual = intent.getStringExtra("clienteAtual")
+            val qtdClientes = intent.getStringExtra("qtdClientes")
+
+            Log.d("idLocacao", idLocacao ?: "idLocacao is null")
+
             tag?.let {
-                val message = "$numeroCliente $qtdClientes $idLocacao"
+                val message = "$clienteAtual $qtdClientes $idLocacao"
                 writeNfcTag(it, message)
             }
         }
@@ -116,6 +136,7 @@ class CadastroNfcActivity : AppCompatActivity() {
         return NdefMessage(arrayOf(ndefRecord))
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun handleButtonClick() {
         val qtdClientes = intent.getStringExtra("qtdClientes")
         val clienteAtual = intent.getStringExtra("clienteAtual")

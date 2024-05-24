@@ -62,8 +62,6 @@ class AbrirArmarioNfcActivity : AppCompatActivity() {
 
         intentFiltersArray = arrayOf(ndef)
         techListsArray = arrayOf(arrayOf(Ndef::class.java.name))
-
-
     }
 
     override fun onResume() {
@@ -116,9 +114,13 @@ class AbrirArmarioNfcActivity : AppCompatActivity() {
     private fun callVerificarClientesActivity(nfcText:String) {
         val parts = nfcText.split(" ")
 
-        val numeroCliente = parts[0]
-        val qtdClientes = parts[1]
+        val numeroCliente = parts[0].toInt()
+        val qtdClientes = parts[1].toInt()
         val idLocacao = parts[2]
+
+        Log.d("numeroCliente", "${numeroCliente}")
+        Log.d("qtdClientes", "${qtdClientes}")
+        Log.d("idLocacao", "${idLocacao}")
 
         val iVerificarClientes = Intent(this, VerificarClientesActivity::class.java)
         iVerificarClientes.putExtra("idLocacao", idLocacao)

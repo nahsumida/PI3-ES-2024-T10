@@ -12,7 +12,5 @@ data class Locacao (
     val unidadeId: String,
     val valorHora: Double?,
     val fotoPessoa1: String? = null,
-    val idNfcPessoa1: String? = null,
     val fotoPessoa2: String? = null,
-    val idNfcPessoa2: String? = null
 )

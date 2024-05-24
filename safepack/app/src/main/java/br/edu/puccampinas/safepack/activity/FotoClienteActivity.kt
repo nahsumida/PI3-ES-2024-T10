@@ -3,6 +3,7 @@ package br.edu.puccampinas.safepack.activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.nfc.NfcAdapter
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -132,8 +133,8 @@ class FotoClienteActivity : AppCompatActivity() {
 
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     Log.d("FotoClienteActivity", "Path: ${photoFile.absolutePath}")
-
                     val iNFC = Intent(this@FotoClienteActivity, CadastroNfcActivity::class.java)
+                    iNFC.action = NfcAdapter.ACTION_TAG_DISCOVERED
                     iNFC.putExtra("idLocacao", idLocacao)
                     iNFC.putExtra("qtdClientes", qtdClientes)
                     if(qtdClientes == ("2") && clienteAtual == ("1")) {

@@ -1,5 +1,6 @@
 package br.edu.puccampinas.safepack.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -21,6 +22,7 @@ class FinalizacaoDeAluguelActivity : AppCompatActivity() {
     private lateinit var locacaoRepository: LocacaoRepository
     private lateinit var storage: FirebaseStorage
 
+    @SuppressLint("LongLogTag")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
