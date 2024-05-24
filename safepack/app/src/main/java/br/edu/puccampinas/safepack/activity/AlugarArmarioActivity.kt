@@ -99,6 +99,7 @@ class AlugarArmarioActivity : AppCompatActivity() {
                                         // abrir a activity QrCodeActivity
                                         val iQRCode = Intent(this, QrCodeActivity::class.java)
                                         iQRCode.putExtra("idQRCode", idLocacao)
+                                        iQRCode.putExtra("idUnidade", idUnidade)
                                         startActivity(iQRCode)
                                     }
 
@@ -125,7 +126,7 @@ class AlugarArmarioActivity : AppCompatActivity() {
         super.onResume()
 
         // verificar horário para exibir ou ocultar o radio button "até as 18:00"
-        verificarHorario()
+        //verificarHorario()
     }
 
     // método para verificar se é hora de exibir o radio button
