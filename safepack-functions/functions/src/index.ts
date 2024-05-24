@@ -37,6 +37,13 @@ export const addEstornoLocacao = functions
       return;
     }
 
+    // Verifica se valEstorno é um número válido
+    if (typeof valEstorno !== "number" || isNaN(valEstorno)) {
+      response.status(400)
+        .send("O campo valEstorno deve ser um valor numérico válido.");
+      return;
+    }
+
     try {
       const dataToUpdate = {
         estorno: valEstorno,
@@ -46,6 +53,7 @@ export const addEstornoLocacao = functions
       response.send("Estorno atualizado com sucesso");
     } catch (e) {
       functions.logger.error("Erro ao atualizar estorno da locação", e);
-      response.status(500).send("Erro ao atualizar estorno da locação");
+      response.status(500)
+        .send("Erro ao atualizar estorno da locação");
     }
   });
