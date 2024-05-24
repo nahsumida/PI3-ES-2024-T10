@@ -63,7 +63,6 @@ class AbrirArmarioNfcActivity : AppCompatActivity() {
         intentFiltersArray = arrayOf(ndef)
         techListsArray = arrayOf(arrayOf(Ndef::class.java.name))
 
-
     }
 
     override fun onResume() {

@@ -3,6 +3,7 @@ package br.edu.puccampinas.safepack.activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.puccampinas.safepack.databinding.ActivityQrCodeBinding
 import br.edu.puccampinas.safepack.repositories.LocacaoRepository
@@ -24,7 +25,7 @@ class QrCodeActivity : AppCompatActivity() {
 
         unidadeR = UnidadeLocacaoRepository()
 
-        val idUnidade = intent.getStringExtra("idQRCode")
+        val idUnidade = intent.getStringExtra("idUnidade")
 
         if(idUnidade != null) adicionarGerente(unidadeR, binding, idUnidade)
 
@@ -69,8 +70,19 @@ class QrCodeActivity : AppCompatActivity() {
                                  idUnidade: String) {
         unidadeR.getUnidadeById(idUnidade)
             .addOnSuccessListener { unidade ->
-                val textoGerente = "${binding.tvGerente.text}${unidade.getString("gerente")}"
-                binding.tvGerente.text = textoGerente
+                if (unidade.exists()) {
+                    val nomeGerente = unidade.getString("gerente")
+                    Log.d("QrCodeActivity", "Nome do gerente: $nomeGerente")
+                    if(nomeGerente != null) {
+                        val textoGerente = "${binding.tvGerente.text}${unidade.getString("gerente")}"
+                        binding.tvGerente.text = textoGerente
+                    }
+                } else {
+                    Log.d("QrCodeActivity", "A unidade não existe")
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("QrCodeActivity", "Erro: $e")
             }
     }
 }
