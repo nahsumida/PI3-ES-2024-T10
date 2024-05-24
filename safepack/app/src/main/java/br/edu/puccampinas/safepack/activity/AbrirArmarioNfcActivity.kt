@@ -20,7 +20,7 @@ class AbrirArmarioNfcActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // valores de teste, esses valores devem estar presentes na nfc
-        val idLocacao = "zwu1ZJi5beUHmcwQCEj9"
+        val idLocacao = "4NGj5pAtZ5o3wE24y88L"
         val numeroCliente = 1
         val qtdClientes = 1
 

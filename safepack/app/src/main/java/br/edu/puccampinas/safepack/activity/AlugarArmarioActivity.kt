@@ -93,7 +93,7 @@ class AlugarArmarioActivity : AppCompatActivity() {
                                     .addOnSuccessListener { unidade ->
 
                                         // calcular e exibir o valor da diária
-                                        val caucaoDiaria = calcularValor(8.0,
+                                        val caucaoDiaria = calcularValor(11.0,
                                             unidade.getDouble("valorHora"))
                                         Log.d("COBRANÇA CARTÃO", "Valor diária: R$$caucaoDiaria")
 
@@ -186,7 +186,7 @@ class AlugarArmarioActivity : AppCompatActivity() {
                 binding.radioButton5.text = stringPreco(binding.radioButton5.text.toString(),
                     calcularValor(6.0,unidade.getDouble("valorHora")))
                 binding.radioButton6.text = stringPreco(binding.radioButton6.text.toString(),
-                    calcularValor(8.0,unidade.getDouble("valorHora")))
+                    calcularValor(11.0,unidade.getDouble("valorHora")))
             }
         } .addOnFailureListener { e ->
             Log.e("Firestore Valor", "ERRO", e)
