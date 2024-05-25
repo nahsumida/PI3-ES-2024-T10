@@ -260,7 +260,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowClickL
                                     .addOnSuccessListener{locacao ->
                                         val idUnidade = locacao.getString("unidadeId")
                                         val iQRCode = Intent(this, QrCodeActivity::class.java)
-                                        iQRCode.putExtra("idQRCode", idUnidade)
+                                        iQRCode.putExtra("idQRCode", idLocacao)
+                                        iQRCode.putExtra("idUnidade", idUnidade)
                                         iQRCode.putExtra("alertDialog", "1")
                                         startActivity(iQRCode)
                                     }
