@@ -26,10 +26,11 @@ class QrCodeActivity : AppCompatActivity() {
         unidadeR = UnidadeLocacaoRepository()
 
         val idUnidade = intent.getStringExtra("idUnidade")
+        val idLocacao = intent.getStringExtra("idQRCode")
 
         if(idUnidade != null) adicionarGerente(unidadeR, binding, idUnidade)
 
-        val bitmap: Bitmap? = gerarQRCode(idUnidade, 800, 800)
+        val bitmap: Bitmap? = gerarQRCode(idLocacao, 800, 800)
 
         bitmap?.let {
             binding.imageQRCode.setImageBitmap(it)
