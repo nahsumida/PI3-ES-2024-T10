@@ -71,6 +71,8 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("com.github.bumptech.glide:glide:4.13.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.13.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.9.1")
+
 
 
     // Import the Firebase BoM
